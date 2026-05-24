@@ -2261,9 +2261,449 @@
         opacity: 0;
       }
     }
+
+    /* ═══════════════════════════════════════════════════════════
+       PREMIUM CYBERPUNK UPGRADE CSS
+    ═══════════════════════════════════════════════════════════ */
+
+    /* Custom animated cursor */
+    * { cursor: none !important; }
+    .cursor-dot {
+      width: 8px; height: 8px; background: #00ffff;
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 999999; transform: translate(-50%,-50%);
+      transition: transform 0.1s; box-shadow: 0 0 12px #00ffff, 0 0 24px #00ffff;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px; border: 2px solid rgba(0,255,255,0.5);
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 999998; transform: translate(-50%,-50%);
+      transition: all 0.12s ease; box-shadow: 0 0 8px rgba(0,255,255,0.3);
+    }
+    .cursor-ring.clicking { transform: translate(-50%,-50%) scale(0.6); border-color: #a855f7; }
+    .cursor-dot.clicking { transform: translate(-50%,-50%) scale(2); background: #a855f7; }
+
+    /* Matrix canvas behind everything */
+    #matrixCanvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; opacity: 0.04; pointer-events: none;
+    }
+
+    /* Particles canvas */
+    #particlesCanvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 1; pointer-events: none; opacity: 0.6;
+    }
+
+    /* Make content sit above canvases */
+    .header, .sidebar, .sidebar-overlay, .cart-sidebar,
+    .search-container, .container, .modal, .fab,
+    .loading-overlay, .notification-toast, .confirm-dialog,
+    .cursor-dot, .cursor-ring, #cyber-loader {
+      position: relative; z-index: 10;
+    }
+    .header { z-index: 1000 !important; }
+    .sidebar, .sidebar-overlay { z-index: 999 !important; }
+    .modal { z-index: 2000 !important; }
+    .loading-overlay { z-index: 10000 !important; }
+    .cursor-dot { z-index: 999999 !important; }
+    .cursor-ring { z-index: 999998 !important; }
+
+    /* ── CYBER LOADER ── */
+    #cyber-loader {
+      position: fixed; inset: 0; background: #000;
+      z-index: 99999; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.8s ease;
+    }
+    #cyber-loader.fade-out { opacity: 0; pointer-events: none; }
+    .cyber-loader-logo {
+      font-size: 3rem; font-weight: 900; letter-spacing: 6px;
+      background: linear-gradient(135deg, #00ffff, #a855f7, #ff006e, #00ffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: rgbGrad 2s ease infinite, cyberPulse 1s ease-in-out infinite;
+      margin-bottom: 30px;
+    }
+    @keyframes rgbGrad {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    @keyframes cyberPulse {
+      0%,100% { filter: drop-shadow(0 0 8px #00ffff); }
+      50% { filter: drop-shadow(0 0 24px #a855f7); }
+    }
+    .cyber-loader-bar-wrap {
+      width: 280px; height: 4px; background: rgba(255,255,255,0.08);
+      border-radius: 4px; overflow: hidden; margin-bottom: 16px;
+    }
+    .cyber-loader-bar {
+      height: 100%; width: 0; border-radius: 4px;
+      background: linear-gradient(90deg, #00ffff, #a855f7, #ff006e);
+      background-size: 200% 100%;
+      animation: barFill 2.4s cubic-bezier(.4,0,.2,1) forwards, barGrad 1s linear infinite;
+    }
+    @keyframes barFill { to { width: 100%; } }
+    @keyframes barGrad { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+    .cyber-loader-text {
+      color: #00ffff; font-size: 0.75rem; letter-spacing: 3px;
+      font-family: monospace; animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── RGB BORDER on header ── */
+    .header {
+      border-bottom: none !important;
+      position: relative;
+    }
+    .header::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, #00ffff, #a855f7, #ff006e, #00ffff);
+      background-size: 200% 100%;
+      animation: rgbSlide 2.5s linear infinite;
+    }
+    @keyframes rgbSlide {
+      0% { background-position: 0% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* ── Brand name glitch animation ── */
+    .brand-name {
+      position: relative; animation: neonFlicker 4s ease-in-out infinite;
+    }
+    @keyframes neonFlicker {
+      0%,19%,21%,23%,25%,54%,56%,100% {
+        text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
+      }
+      20%,24%,55% { text-shadow: none; opacity: 0.8; }
+    }
+
+    /* ── Product cards – premium hover ── */
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275) !important;
+      position: relative !important;
+    }
+    .product-card::after {
+      content: ''; position: absolute; inset: 0; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(0,255,255,0.06), rgba(168,85,247,0.06));
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .product-card:hover::after { opacity: 1; }
+    .product-card:hover {
+      transform: translateY(-12px) scale(1.03) !important;
+      box-shadow: 0 20px 60px rgba(0,255,255,0.35), 0 0 0 1px rgba(0,255,255,0.3) !important;
+    }
+
+    /* ── Buttons – neon glow ── */
+    .btn, .btn-free-download, .filter-btn.active, .cart-checkout-btn {
+      position: relative; overflow: hidden; transition: all 0.3s ease !important;
+    }
+    .btn::after, .btn-free-download::after {
+      content: ''; position: absolute; top: -50%; left: -60%;
+      width: 30%; height: 200%; background: rgba(255,255,255,0.25);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+    }
+    .btn:hover::after, .btn-free-download:hover::after { left: 130%; }
+    .btn:hover {
+      box-shadow: 0 0 20px rgba(0,255,255,0.6), 0 0 40px rgba(0,255,255,0.3) !important;
+      transform: translateY(-3px) !important;
+    }
+
+    /* ── Filter buttons RGB border ── */
+    .filter-btn {
+      border: 1px solid rgba(0,255,255,0.3) !important;
+      transition: all 0.3s ease !important;
+    }
+    .filter-btn:hover {
+      border-color: #00ffff !important;
+      box-shadow: 0 0 12px rgba(0,255,255,0.4), inset 0 0 12px rgba(0,255,255,0.05) !important;
+      transform: translateY(-3px) scale(1.05) !important;
+    }
+
+    /* ── Input fields ── */
+    .input-group input, .input-group textarea,
+    .search-bar, .chat-input, .coupon-input {
+      transition: all 0.3s ease !important;
+    }
+    .input-group input:focus, .input-group textarea:focus {
+      box-shadow: 0 0 0 2px rgba(0,255,255,0.4), 0 0 20px rgba(0,255,255,0.2) !important;
+      border-color: #00ffff !important;
+    }
+    .search-bar:focus {
+      box-shadow: 0 0 0 2px rgba(0,255,255,0.4), 0 0 30px rgba(0,255,255,0.15) !important;
+    }
+
+    /* ── Modal premium entrance ── */
+    .modal.active .modal-content {
+      animation: modalCyberIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55) !important;
+    }
+    @keyframes modalCyberIn {
+      0% { opacity:0; transform: scale(0.7) rotateX(15deg); filter: blur(10px); }
+      100% { opacity:1; transform: scale(1) rotateX(0deg); filter: blur(0); }
+    }
+    .modal-content {
+      border: 1px solid rgba(0,255,255,0.25) !important;
+      box-shadow: 0 0 0 1px rgba(0,255,255,0.15), 0 20px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+    }
+
+    /* ── Notification toast premium ── */
+    .notification-toast.show {
+      animation: toastSlideIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55) !important;
+      box-shadow: 0 0 30px rgba(0,255,255,0.4) !important;
+    }
+    @keyframes toastSlideIn {
+      0% { transform: translateX(400px) scale(0.8); opacity: 0; }
+      100% { transform: translateX(0) scale(1); opacity: 1; }
+    }
+
+    /* ── Section title animated underline ── */
+    .section-title::after {
+      background: linear-gradient(90deg, #00ffff, #a855f7, #ff006e) !important;
+      background-size: 200% 100% !important;
+      animation: expandWidth 1s ease 0.5s forwards, rgbSlide 2s linear infinite !important;
+    }
+
+    /* ── FAB button ── */
+    .fab {
+      animation: fabFloat 3s ease-in-out infinite !important;
+      box-shadow: 0 8px 24px rgba(0,255,255,0.5), 0 0 40px rgba(0,255,255,0.2) !important;
+    }
+    @keyframes fabFloat {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    /* ── Cart badge pulse ── */
+    .badge {
+      animation: badgePop 0.5s cubic-bezier(0.68,-0.55,0.265,1.55), bounce 1.5s ease infinite 0.5s !important;
+    }
+    @keyframes badgePop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+
+    /* ── Header icons ── */
+    .header-icon {
+      transition: all 0.3s ease !important;
+    }
+    .header-icon:hover {
+      background: rgba(0,255,255,0.15) !important;
+      box-shadow: 0 0 16px rgba(0,255,255,0.5), inset 0 0 10px rgba(0,255,255,0.1) !important;
+      transform: translateY(-3px) scale(1.15) !important;
+    }
+
+    /* ── Sidebar menu items ── */
+    .menu-item {
+      transition: all 0.3s ease !important;
+    }
+    .menu-item:hover {
+      background: rgba(0,255,255,0.12) !important;
+      border-color: rgba(0,255,255,0.6) !important;
+      box-shadow: 0 0 16px rgba(0,255,255,0.25), inset 0 0 10px rgba(0,255,255,0.05) !important;
+      transform: translateX(8px) scale(1.02) !important;
+    }
+    .menu-username { animation: usernamePulse 3s ease-in-out infinite !important; }
+    @keyframes usernamePulse {
+      0%,100% { box-shadow: 0 0 15px rgba(0,255,255,0.2); }
+      50% { box-shadow: 0 0 30px rgba(168,85,247,0.4); }
+    }
+
+    /* ── Price text shiny ── */
+    .product-price-discount, .cart-total-amount, .price-discount {
+      animation: priceGlow 2s ease-in-out infinite !important;
+    }
+    @keyframes priceGlow {
+      0%,100% { text-shadow: 0 0 10px rgba(0,255,136,0.5); }
+      50% { text-shadow: 0 0 20px rgba(0,255,136,0.8), 0 0 40px rgba(0,255,136,0.3); }
+    }
+
+    /* ── Search bar glow ── */
+    .search-bar {
+      transition: all 0.4s ease !important;
+    }
+    .search-bar:focus {
+      transform: scale(1.02) !important;
+    }
+
+    /* ── Order status animations ── */
+    .order-status.confirmed {
+      animation: confirmedPulse 2s ease-in-out infinite !important;
+    }
+    @keyframes confirmedPulse {
+      0%,100% { box-shadow: 0 0 8px rgba(0,255,136,0.4); }
+      50% { box-shadow: 0 0 20px rgba(0,255,136,0.7); }
+    }
+
+    /* ── Download button shine ── */
+    .download-btn {
+      position: relative; overflow: hidden !important;
+    }
+    .download-btn::after {
+      content: ''; position: absolute; top: -50%; left: -60%;
+      width: 30%; height: 200%; background: rgba(255,255,255,0.3);
+      transform: skewX(-20deg); transition: left 0.4s ease;
+    }
+    .download-btn:hover::after { left: 130%; }
+
+    /* ── Accordion premium ── */
+    .accordion-item {
+      transition: all 0.35s ease !important;
+    }
+    .accordion-item:hover {
+      box-shadow: 0 8px 30px rgba(0,255,255,0.18), 0 0 0 1px rgba(0,255,255,0.2) !important;
+    }
+
+    /* ── Cart item hover ── */
+    .cart-item {
+      transition: all 0.3s ease !important;
+    }
+    .cart-item:hover {
+      box-shadow: 0 4px 20px rgba(0,255,255,0.2), 0 0 0 1px rgba(0,255,255,0.15) !important;
+      transform: translateX(-6px) !important;
+    }
+
+    /* ── Stat cards ── */
+    .stat-card:hover {
+      box-shadow: 0 16px 50px rgba(0,255,255,0.35), 0 0 0 1px rgba(0,255,255,0.3) !important;
+    }
+
+    /* ── Typing cursor blink ── */
+    .typing-cursor {
+      display: inline-block; width: 2px; height: 1em;
+      background: #00ffff; margin-left: 2px;
+      animation: cursorBlink 0.8s step-end infinite;
+      vertical-align: text-bottom;
+    }
+    @keyframes cursorBlink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* ── Auth modal tabs ── */
+    .auth-tab-bar {
+      display: flex; margin-bottom: 24px; border-radius: 12px;
+      background: rgba(255,255,255,0.04); padding: 4px;
+      border: 1px solid rgba(0,255,255,0.15);
+    }
+    .auth-tab {
+      flex: 1; padding: 10px; text-align: center; cursor: pointer;
+      border-radius: 9px; font-size: 0.85rem; font-weight: 700;
+      color: #666; transition: all 0.3s ease; letter-spacing: 1px;
+    }
+    .auth-tab.active {
+      background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(168,85,247,0.2));
+      color: #00ffff; box-shadow: 0 0 12px rgba(0,255,255,0.2);
+    }
+
+    /* ── Floating shapes decorative ── */
+    .float-shape {
+      position: fixed; border-radius: 50%; pointer-events: none;
+      z-index: 2; animation: floatShape 8s ease-in-out infinite;
+      opacity: 0.04;
+    }
+    .float-shape-1 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #00ffff, transparent);
+      top: -100px; right: -100px; animation-delay: 0s;
+    }
+    .float-shape-2 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, #a855f7, transparent);
+      bottom: 100px; left: -60px; animation-delay: 3s;
+    }
+    .float-shape-3 {
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, #ff006e, transparent);
+      top: 50%; right: 10%; animation-delay: 5s;
+    }
+    @keyframes floatShape {
+      0%,100% { transform: translateY(0) scale(1); }
+      33% { transform: translateY(-30px) scale(1.08); }
+      66% { transform: translateY(20px) scale(0.95); }
+    }
+
+    /* ── Glitch text effect ── */
+    .glitch {
+      position: relative;
+      animation: glitchMain 4s steps(1) infinite;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text); position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+    }
+    .glitch::before {
+      color: #ff006e; clip: rect(24px, 550px, 90px, 0);
+      animation: glitchTop 3s steps(1) infinite;
+    }
+    .glitch::after {
+      color: #00ffff; clip: rect(85px, 550px, 140px, 0);
+      animation: glitchBot 3.5s steps(1) infinite;
+    }
+    @keyframes glitchMain {
+      0%,95%,100% { transform: none; }
+      96% { transform: skewX(1deg); }
+      97% { transform: skewX(-1deg); }
+    }
+    @keyframes glitchTop {
+      0%,88%,100% { clip: rect(0,0,0,0); transform: none; }
+      89% { clip: rect(10px,9999px,30px,0); transform: translateX(-4px); }
+      91% { clip: rect(50px,9999px,70px,0); transform: translateX(4px); }
+    }
+    @keyframes glitchBot {
+      0%,90%,100% { clip: rect(0,0,0,0); transform: none; }
+      91% { clip: rect(80px,9999px,110px,0); transform: translateX(4px); }
+      93% { clip: rect(120px,9999px,150px,0); transform: translateX(-4px); }
+    }
+
+    /* ── Product badge premium ── */
+    .product-badge {
+      animation: badgeSpin 3s ease-in-out infinite !important;
+    }
+    @keyframes badgeSpin {
+      0%,100% { transform: scale(1) rotate(-1deg); }
+      50% { transform: scale(1.08) rotate(1deg); }
+    }
+
+    /* ── Scroll reveal (JS driven) ── */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(.4,0,.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Hamburger hover ── */
+    .hamburger:hover span {
+      box-shadow: 0 0 12px rgba(0,255,255,0.8) !important;
+    }
+
+    /* ── Focus visible ring ── */
+    :focus-visible {
+      outline: 2px solid rgba(0,255,255,0.5);
+      outline-offset: 2px;
+    }
+
   </style>
 </head>
 <body>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Matrix canvas -->
+  <canvas id="matrixCanvas"></canvas>
+
+  <!-- Particles canvas -->
+  <canvas id="particlesCanvas"></canvas>
+
+  <!-- Floating glow shapes -->
+  <div class="float-shape float-shape-1"></div>
+  <div class="float-shape float-shape-2"></div>
+  <div class="float-shape float-shape-3"></div>
+
+  <!-- Cyber Loader (replaces bare page flash) -->
+  <div id="cyber-loader">
+    <div class="cyber-loader-logo glitch" data-text="DEVIL STORE">DEVIL STORE</div>
+    <div class="cyber-loader-bar-wrap"><div class="cyber-loader-bar"></div></div>
+    <div class="cyber-loader-text" id="loaderStatusText">INITIALIZING...</div>
+  </div>
+
   <!-- Loading Overlay -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-content">
@@ -2485,49 +2925,64 @@
     </div>
   </div>
 
-  <!-- Auth Modal -->
+  <!-- Auth Modal – Premium Cyberpunk -->
   <div id="authModal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeModal('authModal')">×</span>
-      <h2 class="modal-title" id="authTitle"><i class="fas fa-sign-in-alt"></i> Login</h2>
+    <div class="modal-content" style="max-width:420px; background: rgba(5,5,15,0.97); border: 1px solid rgba(0,255,255,0.2); border-radius: 24px; padding: 36px;">
+      <span class="modal-close" onclick="closeModal('authModal')" style="top:16px;right:16px;">×</span>
+
+      <!-- Logo area -->
+      <div style="text-align:center; margin-bottom:20px;">
+        <div style="font-size:2rem; color:#00ffff; animation: cyberPulse 2s ease-in-out infinite;">⚡</div>
+        <h2 class="modal-title glitch" id="authTitle" data-text="LOGIN" style="font-size:1.4rem; letter-spacing:4px; margin:8px 0 0;">LOGIN</h2>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="auth-tab-bar">
+        <div class="auth-tab active" id="tab-login" onclick="switchToLogin()">
+          <i class="fas fa-sign-in-alt me-1"></i> LOGIN
+        </div>
+        <div class="auth-tab" id="tab-register" onclick="switchToSignup()">
+          <i class="fas fa-user-plus me-1"></i> REGISTER
+        </div>
+      </div>
 
       <!-- LOGIN FORM -->
       <div id="loginForm">
         <div class="input-group">
-          <label><i class="fas fa-user"></i> Username</label>
-          <input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username">
+          <label><i class="fas fa-envelope" style="color:#00ffff; margin-right:6px;"></i> Email</label>
+          <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-lock"></i> Password</label>
+          <label><i class="fas fa-lock" style="color:#a855f7; margin-right:6px;"></i> Password</label>
           <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password">
         </div>
-        <button class="btn btn-full" onclick="loginUser()">
-          <i class="fas fa-sign-in-alt"></i> Login
+        <button class="btn btn-full" style="margin-top:8px; letter-spacing:2px; font-weight:900;" onclick="loginUser()">
+          <i class="fas fa-sign-in-alt"></i> LOGIN NOW
         </button>
-        <p style="text-align: center; margin-top: 15px; color: #999;">
-          Don't have an account? <span style="color: #00ffff; cursor: pointer; font-weight: bold;" onclick="switchToSignup()">Register</span>
+        <p style="text-align:center; margin-top:14px; color:#555; font-size:0.8rem;">
+          No account? <span style="color:#00ffff; cursor:pointer; font-weight:700;" onclick="switchToSignup()">Register →</span>
         </p>
       </div>
 
       <!-- REGISTER FORM -->
-      <div id="signupForm" style="display: none;">
+      <div id="signupForm" style="display:none;">
         <div class="input-group">
-          <label><i class="fas fa-user"></i> Username</label>
-          <input type="text" id="signupUsername" placeholder="Choose a username (no spaces)" autocomplete="username">
+          <label><i class="fas fa-user" style="color:#00ffff; margin-right:6px;"></i> Full Name</label>
+          <input type="text" id="signupName" placeholder="Your name" autocomplete="name">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-lock"></i> Password (min 6 characters)</label>
+          <label><i class="fas fa-envelope" style="color:#a855f7; margin-right:6px;"></i> Email</label>
+          <input type="email" id="signupEmail" placeholder="your@email.com" autocomplete="email">
+        </div>
+        <div class="input-group">
+          <label><i class="fas fa-lock" style="color:#ff006e; margin-right:6px;"></i> Password <span style="color:#555; font-weight:400;">(min 6 chars)</span></label>
           <input type="password" id="signupPassword" placeholder="Create password" autocomplete="new-password">
         </div>
-        <div class="input-group">
-          <label><i class="fab fa-telegram"></i> Telegram ID / Username</label>
-          <input type="text" id="signupTelegram" placeholder="e.g. @YourTelegramID">
-        </div>
-        <button class="btn btn-full" onclick="signupUser()">
-          <i class="fas fa-user-plus"></i> Register
+        <button class="btn btn-full" style="margin-top:8px; letter-spacing:2px; font-weight:900; background: linear-gradient(135deg,#a855f7,#ff006e);" onclick="signupUser()">
+          <i class="fas fa-user-plus"></i> CREATE ACCOUNT
         </button>
-        <p style="text-align: center; margin-top: 15px; color: #999;">
-          Already have an account? <span style="color: #00ffff; cursor: pointer; font-weight: bold;" onclick="switchToLogin()">Login</span>
+        <p style="text-align:center; margin-top:14px; color:#555; font-size:0.8rem;">
+          Have account? <span style="color:#00ffff; cursor:pointer; font-weight:700;" onclick="switchToLogin()">Login →</span>
         </p>
       </div>
     </div>
@@ -2615,10 +3070,16 @@
     window.currentFilter = 'all';
     window.confirmCallback = null;
 
-    // Auth state: we use custom username/password system (no Firebase Auth)
-    // So skip onAuthStateChanged – session is restored via localStorage in the script below.
-    loadProducts();
-    loadCartFromStorage();
+    // Check auth state
+    onAuthStateChanged(auth, (user) => {
+      window.currentUser = user;
+      updateMenu();
+      loadProducts();
+      loadCartFromStorage();
+      if (user) {
+        loadChatMessages();
+      }
+    });
 
     // Load brand settings
     async function loadBrandSettings() {
@@ -2730,7 +3191,7 @@
         menuContent.innerHTML = `
           <div class="menu-username">
             <i class="fas fa-user-circle"></i><br>
-            ${escapeHtml(user.displayName || user.username || user.email)}
+            ${escapeHtml(user.displayName || user.email)}
           </div>
           <div class="menu-item" onclick="showProducts()">
             <i class="fas fa-shopping-bag"></i> Products
@@ -3682,7 +4143,7 @@ function applyFilter(products, filter) {
             userInput: { 
               utrId,
               name: window.currentUser.displayName || 'N/A',
-              email: window.currentUser.username || window.currentUser.email,
+              email: window.currentUser.email,
               phone: 'N/A'
             },
             userId: window.currentUser.uid,
@@ -4062,7 +4523,7 @@ function applyFilter(products, filter) {
           message: message,
           sender: 'user',
           timestamp: new Date().toISOString(),
-          userName: window.currentUser.displayName || window.currentUser.username || window.currentUser.email
+          userName: window.currentUser.displayName || window.currentUser.email
         });
 
         // Update chat info
@@ -4237,119 +4698,93 @@ Once payment is completed, the download link for your purchased digital item (HT
       }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // AUTH FUNCTIONS  –  Username / Password / Telegram system
-    // Uses Firebase Realtime DB  (path: users/{username})
-    // ═══════════════════════════════════════════════════════════
-
+    // Auth functions
     function showAuth() {
       if (window.currentUser) {
         toggleMenu();
         return;
       }
+
       document.getElementById('authModal').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
 
     function switchToSignup() {
-      document.getElementById('authTitle').innerHTML = '<i class="fas fa-user-plus"></i> Register';
+      const t = document.getElementById('authTitle');
+      if(t){ t.innerHTML='REGISTER'; t.setAttribute('data-text','REGISTER'); }
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('signupForm').style.display = 'block';
+      const tl=document.getElementById('tab-login'), ts=document.getElementById('tab-register');
+      if(tl){ tl.classList.remove('active'); } if(ts){ ts.classList.add('active'); }
     }
 
     function switchToLogin() {
-      document.getElementById('authTitle').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+      const t = document.getElementById('authTitle');
+      if(t){ t.innerHTML='LOGIN'; t.setAttribute('data-text','LOGIN'); }
       document.getElementById('signupForm').style.display = 'none';
       document.getElementById('loginForm').style.display = 'block';
+      const tl=document.getElementById('tab-login'), ts=document.getElementById('tab-register');
+      if(ts){ ts.classList.remove('active'); } if(tl){ tl.classList.add('active'); }
     }
 
-    // ── Simple hash function for password (not cryptographic, but better than plain text)
-    function simpleHash(str) {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-      }
-      return Math.abs(hash).toString(36);
-    }
-
-    // ── LOGIN ──────────────────────────────────────────────────
     async function loginUser() {
-      const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+      const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
 
-      if (!username || !password) {
+      if (!email || !password) {
         showNotification('Please fill all fields', 'error');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showNotification('Please enter a valid email address', 'error');
         return;
       }
 
       try {
         showLoading('Logging in...');
-
-        const snapshot = await window.dbGet(window.dbRef(window.db, `users/${username}`));
-
-        if (!snapshot.exists()) {
-          hideLoading();
-          showNotification('Username not found. Please register first.', 'error');
-          return;
-        }
-
-        const userData = snapshot.val();
-        const hashedInput = simpleHash(password);
-
-        if (userData.password !== hashedInput) {
-          hideLoading();
-          showNotification('Incorrect password', 'error');
-          return;
-        }
-
-        // ── Set logged-in user in memory ──
-        window.currentUser = {
-          uid: username,
-          username: username,
-          displayName: userData.username,
-          telegramId: userData.telegramId || '',
-          email: username + '@store.local'   // placeholder so existing code works
-        };
-
-        // Persist session in localStorage
-        localStorage.setItem('storeUser', JSON.stringify(window.currentUser));
-
+        await window.authSignIn(window.auth, email, password);
         hideLoading();
+        
         closeModal('authModal');
-
-        document.getElementById('loginUsername').value = '';
+        
+        document.getElementById('loginEmail').value = '';
         document.getElementById('loginPassword').value = '';
-
-        updateMenu();
-        showNotification('Welcome back, ' + userData.username + '! 🎉', 'success');
-
+        
+        showNotification(`Welcome back, ${window.currentUser.displayName || 'User'}!`, 'success');
       } catch (error) {
         hideLoading();
         console.error('Login error:', error);
-        showNotification('Login failed: ' + error.message, 'error');
+        
+        let errorMsg = 'Login failed';
+        if (error.code === 'auth/user-not-found') {
+          errorMsg = 'No account found with this email';
+        } else if (error.code === 'auth/wrong-password') {
+          errorMsg = 'Incorrect password';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMsg = 'Invalid email format';
+        } else if (error.code === 'auth/too-many-requests') {
+          errorMsg = 'Too many failed attempts. Please try again later';
+        } else {
+          errorMsg = error.message;
+        }
+        
+        showNotification(errorMsg, 'error');
       }
     }
 
-    // ── REGISTER ───────────────────────────────────────────────
     async function signupUser() {
-      const username   = document.getElementById('signupUsername').value.trim().toLowerCase();
-      const password   = document.getElementById('signupPassword').value.trim();
-      const telegramId = document.getElementById('signupTelegram').value.trim();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
 
-      if (!username || !password || !telegramId) {
+      if (!name || !email || !password) {
         showNotification('Please fill all fields', 'error');
         return;
       }
 
-      if (username.length < 3 || username.length > 20) {
-        showNotification('Username must be 3-20 characters', 'error');
-        return;
-      }
-
-      if (!/^[a-z0-9_]+$/.test(username)) {
-        showNotification('Username can only contain letters, numbers and underscore', 'error');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showNotification('Please enter a valid email address', 'error');
         return;
       }
 
@@ -4360,78 +4795,60 @@ Once payment is completed, the download link for your purchased digital item (HT
 
       try {
         showLoading('Creating account...');
-
-        // Check if username already exists
-        const existingSnap = await window.dbGet(window.dbRef(window.db, `users/${username}`));
-        if (existingSnap.exists()) {
-          hideLoading();
-          showNotification('Username already taken. Choose another.', 'error');
-          return;
-        }
-
-        // Save user to Firebase
-        await window.dbSet(window.dbRef(window.db, `users/${username}`), {
-          username  : username,
-          password  : simpleHash(password),
-          telegramId: telegramId,
-          createdAt : new Date().toISOString()
+        const userCredential = await window.authCreateUser(window.auth, email, password);
+        await window.authUpdateProfile(userCredential.user, { displayName: name });
+        
+        // Create user profile in database
+        await window.dbSet(window.dbRef(window.db, `users/${userCredential.user.uid}/profile`), {
+          name: name,
+          email: email,
+          createdAt: new Date().toISOString()
         });
-
-        // Auto-login after register
-        window.currentUser = {
-          uid        : username,
-          username   : username,
-          displayName: username,
-          telegramId : telegramId,
-          email      : username + '@store.local'
-        };
-
-        localStorage.setItem('storeUser', JSON.stringify(window.currentUser));
-
+        
         hideLoading();
+        
         closeModal('authModal');
-
-        document.getElementById('signupUsername').value = '';
+        
+        document.getElementById('signupName').value = '';
+        document.getElementById('signupEmail').value = '';
         document.getElementById('signupPassword').value = '';
-        document.getElementById('signupTelegram').value = '';
-
-        updateMenu();
-        showNotification('Account created! Welcome, ' + username + '! 🎉', 'success');
-
+        
+        showNotification(`Welcome to our store, ${name}!`, 'success');
       } catch (error) {
         hideLoading();
-        console.error('Register error:', error);
-        showNotification('Registration failed: ' + error.message, 'error');
+        console.error('Signup error:', error);
+        
+        let errorMsg = 'Signup failed';
+        if (error.code === 'auth/email-already-in-use') {
+          errorMsg = 'This email is already registered';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMsg = 'Invalid email format';
+        } else if (error.code === 'auth/weak-password') {
+          errorMsg = 'Password is too weak';
+        } else {
+          errorMsg = error.message;
+        }
+        
+        showNotification(errorMsg, 'error');
       }
     }
 
-    // ── LOGOUT ─────────────────────────────────────────────────
     async function logoutUser() {
       try {
         showLoading('Logging out...');
-        window.currentUser = null;
-        localStorage.removeItem('storeUser');
+        await window.authSignOut(window.auth);
         hideLoading();
+        
         toggleMenu();
         showProducts();
-        updateMenu();
+        
         showNotification('Logged out successfully', 'success');
       } catch (error) {
         hideLoading();
+        console.error('Logout error:', error);
         showNotification('Logout failed', 'error');
       }
     }
-
-    // ── RESTORE SESSION on page load ───────────────────────────
-    (function restoreSession() {
-      try {
-        const saved = localStorage.getItem('storeUser');
-        if (saved) {
-          window.currentUser = JSON.parse(saved);
-          updateMenu();
-        }
-      } catch(e) { localStorage.removeItem('storeUser'); }
-    })();
 
     // Require login
     function requireLogin(feature) {
@@ -4546,7 +4963,16 @@ Once payment is completed, the download link for your purchased digital item (HT
       }
     });
 
-    // Auth state handled via localStorage (custom username/password system)
+    // Handle authentication state changes in realtime
+    window.auth.onAuthStateChanged((user) => {
+      if (user && !window.currentUser) {
+        // User just logged in
+        updateMenu();
+      } else if (!user && window.currentUser) {
+        // User just logged out
+        updateMenu();
+      }
+    });
 
     // Prevent form submission on Enter key in modals
     document.querySelectorAll('.modal input').forEach(input => {
@@ -4649,6 +5075,251 @@ Once payment is completed, the download link for your purchased digital item (HT
       window.debugProducts = () => console.log('Products:', window.allProducts);
       console.log('%c🐛 Debug mode enabled. Use debugCart(), debugUser(), debugProducts()', 'color: #ffa500;');
     }
+  
+
+    // ═══════════════════════════════════════════════════════════════
+    // PREMIUM CYBERPUNK ENGINE
+    // ═══════════════════════════════════════════════════════════════
+
+    // ── 1. CYBER LOADER ─────────────────────────────────────────
+    const loaderMsgs = [
+      'INITIALIZING...', 'LOADING MODULES...', 'CONNECTING...', 
+      'DECRYPTING...', 'SYSTEM READY ⚡'
+    ];
+    let loaderIdx = 0;
+    const loaderTextEl = document.getElementById('loaderStatusText');
+    const loaderInterval = setInterval(() => {
+      loaderIdx++;
+      if (loaderTextEl && loaderIdx < loaderMsgs.length) {
+        loaderTextEl.textContent = loaderMsgs[loaderIdx];
+      }
+      if (loaderIdx >= loaderMsgs.length - 1) clearInterval(loaderInterval);
+    }, 500);
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const cl = document.getElementById('cyber-loader');
+        if (cl) { cl.classList.add('fade-out'); setTimeout(() => cl.remove(), 900); }
+      }, 2600);
+    });
+
+    // ── 2. CUSTOM CURSOR ─────────────────────────────────────────
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx=0, my=0, rx=0, ry=0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      if(dot){ dot.style.left = mx+'px'; dot.style.top = my+'px'; }
+    });
+    (function animRing(){
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      if(ring){ ring.style.left = rx+'px'; ring.style.top = ry+'px'; }
+      requestAnimationFrame(animRing);
+    })();
+    document.addEventListener('mousedown', () => {
+      dot?.classList.add('clicking');
+      ring?.classList.add('clicking');
+    });
+    document.addEventListener('mouseup', () => {
+      dot?.classList.remove('clicking');
+      ring?.classList.remove('clicking');
+    });
+
+    // ── 3. MATRIX RAIN ───────────────────────────────────────────
+    (function initMatrix(){
+      const canvas = document.getElementById('matrixCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&アイウエオカキクケコ⚡∆∇∈∑';
+      const fs = 13;
+      let cols = Math.floor(canvas.width / fs);
+      let drops = Array(cols).fill(1);
+      function drawMatrix(){
+        ctx.fillStyle = 'rgba(0,0,0,0.04)';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = '#00ffff';
+        ctx.font = fs+'px monospace';
+        for(let i=0;i<drops.length;i++){
+          const c = chars[Math.floor(Math.random()*chars.length)];
+          ctx.fillStyle = `hsl(${180+Math.random()*60},100%,${50+Math.random()*30}%)`;
+          ctx.fillText(c, i*fs, drops[i]*fs);
+          if(drops[i]*fs > canvas.height && Math.random() > 0.975) drops[i]=0;
+          drops[i]++;
+        }
+      }
+      setInterval(drawMatrix, 55);
+    })();
+
+    // ── 4. FLOATING PARTICLES ────────────────────────────────────
+    (function initParticles(){
+      const canvas = document.getElementById('particlesCanvas');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      const N = 60;
+      const cols = ['#00ffff','#a855f7','#ff006e','#00ff88','#ffffff'];
+      const pts = Array.from({length:N}, ()=>({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*2+0.5,
+        vx: (Math.random()-0.5)*0.4,
+        vy: (Math.random()-0.5)*0.4,
+        col: cols[Math.floor(Math.random()*cols.length)],
+        alpha: Math.random()*0.5+0.1
+      }));
+      function drawParticles(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
+          if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
+          ctx.beginPath();
+          ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle = p.col;
+          ctx.globalAlpha = p.alpha;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        });
+        // draw connections
+        for(let i=0;i<pts.length;i++){
+          for(let j=i+1;j<pts.length;j++){
+            const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+            const dist=Math.sqrt(dx*dx+dy*dy);
+            if(dist<120){
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x,pts[i].y);
+              ctx.lineTo(pts[j].x,pts[j].y);
+              ctx.strokeStyle = pts[i].col;
+              ctx.globalAlpha = (1-dist/120)*0.15;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+              ctx.globalAlpha = 1;
+            }
+          }
+        }
+      }
+      setInterval(drawParticles, 30);
+    })();
+
+    // ── 5. TYPING TEXT on brand name ─────────────────────────────
+    (function initTyping(){
+      const el = document.getElementById('headerBrandName');
+      if(!el) return;
+      const phrases = ['DEVIL STORE','DARK MARKET','CYBER SHOP','DEVIL STORE'];
+      let pi=0, ci=0, deleting=false;
+      el.innerHTML = '<span class="typing-cursor"></span>';
+      function type(){
+        const phrase = phrases[pi];
+        if(!deleting){
+          ci++;
+          el.innerHTML = phrase.slice(0,ci) + '<span class="typing-cursor"></span>';
+          if(ci === phrase.length){ deleting=true; setTimeout(type, 1800); return; }
+        } else {
+          ci--;
+          el.innerHTML = phrase.slice(0,ci) + '<span class="typing-cursor"></span>';
+          if(ci === 0){ deleting=false; pi=(pi+1)%phrases.length; setTimeout(type,400); return; }
+        }
+        setTimeout(type, deleting ? 60 : 100);
+      }
+      setTimeout(type, 3200);
+    })();
+
+    // ── 6. SCROLL REVEAL ─────────────────────────────────────────
+    (function initScrollReveal(){
+      const targets = document.querySelectorAll('.product-card, .stat-card, .order-card, .contact-card, .accordion-item');
+      targets.forEach(el => el.classList.add('reveal'));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.1 });
+      targets.forEach(el => io.observe(el));
+    })();
+
+    // ── 7. RE-APPLY scroll reveal for dynamically added cards ────
+    const _origDisplay = window.displayProducts;
+    if(typeof _origDisplay === 'function'){
+      window.displayProducts = function(products){
+        _origDisplay(products);
+        setTimeout(()=>{
+          document.querySelectorAll('.product-card:not(.reveal)').forEach(el=>{
+            el.classList.add('reveal');
+            setTimeout(()=>el.classList.add('visible'),50);
+          });
+        },100);
+      };
+    }
+
+    // ── 8. NEON CLICK RIPPLE ─────────────────────────────────────
+    document.addEventListener('click', (e) => {
+      if(e.target.closest('.modal, .sidebar, #cyber-loader')) return;
+      const ripple = document.createElement('div');
+      ripple.style.cssText = `
+        position:fixed; left:${e.clientX}px; top:${e.clientY}px;
+        width:4px; height:4px; border-radius:50%;
+        background:radial-gradient(circle, rgba(0,255,255,0.8), transparent);
+        transform:translate(-50%,-50%) scale(1);
+        animation:rippleOut 0.6s ease-out forwards;
+        pointer-events:none; z-index:999990;
+      `;
+      document.body.appendChild(ripple);
+      setTimeout(()=>ripple.remove(), 650);
+    });
+    // Add ripple keyframe
+    const rkStyle = document.createElement('style');
+    rkStyle.textContent = '@keyframes rippleOut{to{transform:translate(-50%,-50%) scale(40);opacity:0;}}';
+    document.head.appendChild(rkStyle);
+
+    // ── 9. PREMIUM NOTIFICATION override ─────────────────────────
+    const _origNotif = window.showNotification;
+    window.showNotification = function(message, type='success'){
+      if(typeof _origNotif === 'function') _origNotif(message, type);
+      // Also add a shake/bounce to the toast
+      const toast = document.getElementById('notificationToast');
+      if(toast){
+        toast.style.animation='none';
+        requestAnimationFrame(()=>{
+          toast.style.animation='toastSlideIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)';
+        });
+      }
+    };
+
+    // ── 10. RGB border on cards via JS for performance ───────────
+    let hue = 180;
+    setInterval(()=>{
+      hue = (hue+0.3)%360;
+      document.documentElement.style.setProperty('--rgb-hue', hue);
+    }, 16);
+
+    // ── 11. Glitch on product cards hover ─────────────────────────
+    document.addEventListener('mouseover', e => {
+      const card = e.target.closest('.product-card');
+      if(card){
+        const title = card.querySelector('.product-title');
+        if(title && !title.dataset.originalText){
+          title.dataset.originalText = title.textContent;
+          title.classList.add('glitch');
+          title.setAttribute('data-text', title.textContent);
+        }
+      }
+    });
+
+    // ── 12. Stagger product card animations ──────────────────────
+    const _origCreate = window.createProductCard;
+    if(typeof _origCreate === 'function'){
+      window.createProductCard = function(product, index){
+        const card = _origCreate(product, index);
+        card.style.animationDelay = (index * 0.08) + 's';
+        return card;
+      };
+    }
+
+    console.log('%c⚡ DEVIL STORE PREMIUM ENGINE LOADED ⚡', 'color:#00ffff;font-size:16px;font-weight:bold;text-shadow:0 0 10px #00ffff;');
+
   </script>
 </body>
 </html>
