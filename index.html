@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2262,319 +2260,228 @@
       }
     }
 
-    /* ══════════════════════════════════════════════
-       PREMIUM CYBERPUNK ENGINE
-    ══════════════════════════════════════════════ */
+    /* ===== ENHANCED BACKGROUND ANIMATIONS ===== */
 
-    /* Custom cursor */
-    * { cursor: none !important; }
-    #cur-dot {
-      width: 8px; height: 8px; background: #00ffff;
-      border-radius: 50%; position: fixed; pointer-events: none;
-      z-index: 999999; transform: translate(-50%,-50%);
-      box-shadow: 0 0 12px #00ffff, 0 0 24px rgba(0,255,255,0.5);
-      transition: background 0.2s, transform 0.1s;
-    }
-    #cur-ring {
-      width: 36px; height: 36px;
-      border: 2px solid rgba(0,255,255,0.5);
-      border-radius: 50%; position: fixed; pointer-events: none;
-      z-index: 999998; transform: translate(-50%,-50%);
-      transition: all 0.1s ease;
-    }
-    #cur-dot.click { background: #a855f7; transform: translate(-50%,-50%) scale(2.5); }
-    #cur-ring.click { border-color: #a855f7; transform: translate(-50%,-50%) scale(0.5); }
-
-    /* Matrix + particles canvas */
-    #mtx-canvas, #ptc-canvas {
-      position: fixed; top:0; left:0;
-      width:100%; height:100%;
-      pointer-events: none; z-index: 0;
-    }
-    #mtx-canvas { opacity: 0.04; }
-    #ptc-canvas { opacity: 0.55; z-index: 1; }
-
-    /* Glow shapes */
-    .gshape {
-      position: fixed; border-radius: 50%;
-      pointer-events: none; z-index: 2; opacity: 0.05;
-    }
-    .gshape-1 {
-      width:320px; height:320px; top:-80px; right:-80px;
-      background: radial-gradient(circle,#00ffff,transparent);
-      animation: gfloat 8s ease-in-out infinite;
-    }
-    .gshape-2 {
-      width:220px; height:220px; bottom:80px; left:-60px;
-      background: radial-gradient(circle,#a855f7,transparent);
-      animation: gfloat 10s ease-in-out infinite 3s;
-    }
-    .gshape-3 {
-      width:160px; height:160px; top:45%; right:8%;
-      background: radial-gradient(circle,#ff006e,transparent);
-      animation: gfloat 7s ease-in-out infinite 5s;
-    }
-    @keyframes gfloat {
-      0%,100%{transform:translateY(0) scale(1);}
-      50%{transform:translateY(-28px) scale(1.08);}
+    /* Animated moving gradient background */
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+      background-size: 400% 400%;
+      animation: bgGradientMove 12s ease infinite;
     }
 
-    /* Cyber boot loader */
-    #cyber-boot {
-      position: fixed; inset: 0; background: #000;
-      z-index: 99999; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      transition: opacity 0.8s ease;
-    }
-    #cyber-boot.out { opacity:0; pointer-events:none; }
-    .cb-logo {
-      font-size: 2.8rem; font-weight: 900; letter-spacing: 6px;
-      background: linear-gradient(135deg,#00ffff,#a855f7,#ff006e,#00ffff);
-      background-size: 300% 300%;
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      animation: rgbg 2s ease infinite, cpulse 1s ease-in-out infinite;
-      margin-bottom: 28px;
-    }
-    @keyframes rgbg {
-      0%,100%{background-position:0% 50%} 50%{background-position:100% 50%}
-    }
-    @keyframes cpulse {
-      0%,100%{filter:drop-shadow(0 0 8px #00ffff)}
-      50%{filter:drop-shadow(0 0 24px #a855f7)}
-    }
-    .cb-bar-wrap {
-      width: 260px; height: 4px; background: rgba(255,255,255,0.07);
-      border-radius: 4px; overflow: hidden; margin-bottom: 14px;
-    }
-    .cb-bar {
-      height: 100%; width: 0; border-radius: 4px;
-      background: linear-gradient(90deg,#00ffff,#a855f7,#ff006e);
-      background-size: 200% 100%;
-      animation: cbfill 2.5s cubic-bezier(.4,0,.2,1) forwards,
-                 cbgrad 1s linear infinite;
-    }
-    @keyframes cbfill { to{width:100%} }
-    @keyframes cbgrad { 0%{background-position:0% 0} 100%{background-position:200% 0} }
-    .cb-txt {
-      color:#00ffff; font-size:0.72rem; letter-spacing:3px;
-      font-family:monospace; animation: blink 0.8s step-end infinite;
-    }
-    @keyframes blink{50%{opacity:0}}
-
-    /* Ensure all content above canvases */
-    .header,.sidebar,.cart-sidebar,.search-container,
-    .container,.modal,.fab,.loading-overlay,
-    .notification-toast,.confirm-dialog,
-    #cur-dot,#cur-ring,#cyber-boot {
-      position: relative; z-index: 10;
-    }
-    .header{z-index:1000!important;}
-    .sidebar,.sidebar-overlay{z-index:999!important;}
-    .modal{z-index:2000!important;}
-    .loading-overlay{z-index:10000!important;}
-    #cur-dot{z-index:999999!important;}
-    #cur-ring{z-index:999998!important;}
-    #cyber-boot{z-index:99999!important;}
-
-    /* RGB header border */
-    .header { border-bottom: none !important; }
-    .header::after {
-      content:''; position:absolute; bottom:0; left:0;
-      width:100%; height:2px;
-      background: linear-gradient(90deg,#00ffff,#a855f7,#ff006e,#00ffff);
-      background-size:200% 100%;
-      animation: rgbslide 2.5s linear infinite;
-    }
-    @keyframes rgbslide{0%{background-position:0% 0}100%{background-position:200% 0}}
-
-    /* Brand neon flicker */
-    .brand-name {
-      animation: nflicker 5s ease-in-out infinite !important;
-    }
-    @keyframes nflicker {
-      0%,19%,21%,23%,25%,54%,56%,100%{
-        text-shadow:0 0 5px #00ffff,0 0 15px #00ffff,0 0 30px #00ffff;
-      }
-      20%,24%,55%{text-shadow:none;opacity:0.7;}
+    @keyframes bgGradientMove {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    /* Cards premium hover */
+    /* Glowing orbs floating in background */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orbFloat 15s ease-in-out infinite;
+    }
+    .bg-orb-1 {
+      width: 350px; height: 350px;
+      background: rgba(0,255,255,0.07);
+      top: -100px; left: -100px;
+      animation-duration: 18s;
+    }
+    .bg-orb-2 {
+      width: 250px; height: 250px;
+      background: rgba(168,85,247,0.09);
+      bottom: 10%; right: -80px;
+      animation-duration: 14s;
+      animation-delay: -5s;
+    }
+    .bg-orb-3 {
+      width: 180px; height: 180px;
+      background: rgba(255,0,110,0.06);
+      top: 40%; left: 30%;
+      animation-duration: 20s;
+      animation-delay: -8s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      33%       { transform: translateY(-40px) scale(1.05); }
+      66%       { transform: translateY(30px) scale(0.95); }
+    }
+
+    /* Grid / scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,255,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+      animation: gridPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+
+    /* ===== BUTTON ANIMATIONS ===== */
+
+    /* All buttons: press effect + glow pop */
+    button, .btn, .btn-free-download, .btn-icon,
+    .coupon-apply-btn, .cart-checkout-btn, .confirm-btn,
+    .social-btn, .filter-btn, .pagination-btn,
+    .download-btn, .chat-send-btn {
+      transition: transform 0.18s cubic-bezier(.34,1.56,.64,1),
+                  box-shadow 0.2s ease,
+                  background 0.3s ease !important;
+    }
+
+    button:active, .btn:active, .btn-free-download:active,
+    .btn-icon:active, .coupon-apply-btn:active,
+    .cart-checkout-btn:active, .social-btn:active,
+    .filter-btn:active, .pagination-btn:active,
+    .download-btn:active, .chat-send-btn:active {
+      transform: scale(0.93) !important;
+      box-shadow: 0 0 20px rgba(0,255,255,0.7) !important;
+    }
+
+    /* Filter buttons pulse when active */
+    .filter-btn.active {
+      animation: filterActivePulse 2.5s ease-in-out infinite;
+    }
+    @keyframes filterActivePulse {
+      0%,100% { box-shadow: 0 0 8px rgba(0,255,255,0.5); }
+      50%      { box-shadow: 0 0 22px rgba(0,255,255,0.9); }
+    }
+
+    /* ===== IMAGE / PHOTO ANIMATIONS ===== */
+
+    .product-image {
+      transition: transform 0.4s cubic-bezier(.34,1.56,.64,1),
+                  filter 0.3s ease,
+                  box-shadow 0.3s ease !important;
+    }
+    .product-card:hover .product-image {
+      transform: scale(1.07) rotate(-1deg) !important;
+      filter: brightness(1.1) saturate(1.2) !important;
+      box-shadow: 0 8px 30px rgba(0,255,255,0.35) !important;
+    }
+
+    /* Modal image zoom-in on open */
+    .modal-image {
+      animation: imgReveal 0.6s cubic-bezier(.34,1.56,.64,1) !important;
+    }
+    @keyframes imgReveal {
+      from { transform: scale(0.7) rotate(-3deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* Screenshot items */
+    .screenshot-item {
+      transition: transform 0.35s cubic-bezier(.34,1.56,.64,1),
+                  box-shadow 0.3s ease !important;
+    }
+    .screenshot-item:hover {
+      transform: scale(1.12) rotate(1.5deg) !important;
+      box-shadow: 0 8px 24px rgba(0,255,255,0.5) !important;
+    }
+
+    /* Brand logo continuous spin-float */
+    .brand-logo {
+      animation: float 3s ease-in-out infinite,
+                 logoBorder 4s linear infinite !important;
+    }
+    @keyframes logoBorder {
+      0%   { border-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.4); }
+      33%  { border-color: #a855f7; box-shadow: 0 0 15px rgba(168,85,247,0.4); }
+      66%  { border-color: #ff006e; box-shadow: 0 0 15px rgba(255,0,110,0.4); }
+      100% { border-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.4); }
+    }
+
+    /* ===== PAGE TRANSITION ANIMATIONS ===== */
+
+    #mainContent > * {
+      animation: pageItemReveal 0.5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes pageItemReveal {
+      from { opacity: 0; transform: translateY(28px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Section title shimmer */
+    .section-title {
+      position: relative;
+      overflow: hidden;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,255,255,0.15), transparent);
+      animation: titleShimmer 3s ease-in-out infinite;
+    }
+    @keyframes titleShimmer {
+      0%   { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    /* ===== CLICK RIPPLE ON ANY CLICKABLE ===== */
+    .click-ripple {
+      position: fixed;
+      border-radius: 50%;
+      width: 30px; height: 30px;
+      background: rgba(0,255,255,0.5);
+      pointer-events: none;
+      transform: translate(-50%,-50%) scale(0);
+      animation: clickRippleAnim 0.6s ease-out forwards;
+      z-index: 99999;
+    }
+    @keyframes clickRippleAnim {
+      0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+      100% { transform: translate(-50%,-50%) scale(6); opacity: 0; }
+    }
+
+    /* Product card entry animation */
     .product-card {
-      transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)!important;
+      animation: cardEnter 0.5s cubic-bezier(.34,1.56,.64,1) both;
     }
-    .product-card:hover {
-      transform: translateY(-12px) scale(1.03)!important;
-      box-shadow: 0 24px 60px rgba(0,255,255,0.4),
-                  0 0 0 1px rgba(0,255,255,0.3)!important;
-      border-color: rgba(0,255,255,0.6)!important;
+    @keyframes cardEnter {
+      from { opacity: 0; transform: translateY(40px) scale(0.92); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Button shine sweep */
-    .btn, .btn-free-download, .cart-checkout-btn {
-      position:relative; overflow:hidden;
-      transition: all 0.3s ease!important;
+    /* QR image in payment modal */
+    .qr-image {
+      transition: transform 0.4s ease, box-shadow 0.4s ease !important;
     }
-    .btn::after,.btn-free-download::after {
-      content:''; position:absolute; top:-50%; left:-60%;
-      width:30%; height:200%;
-      background:rgba(255,255,255,0.22);
-      transform:skewX(-20deg);
-      transition:left 0.5s ease;
+    .qr-image:hover {
+      transform: scale(1.06) !important;
+      box-shadow: 0 0 40px rgba(0,255,255,0.7) !important;
     }
-    .btn:hover::after,.btn-free-download:hover::after{left:130%;}
-    .btn:hover,.btn-free-download:hover {
-      transform:translateY(-3px)!important;
-      box-shadow:0 0 22px rgba(0,255,255,0.6),
-                 0 0 44px rgba(0,255,255,0.3)!important;
-    }
-
-    /* Input focus glow */
-    .input-group input:focus,.input-group textarea:focus {
-      box-shadow:0 0 0 2px rgba(0,255,255,0.4),
-                 0 0 20px rgba(0,255,255,0.2)!important;
-      border-color:#00ffff!important;
-      transform:scale(1.01);
-    }
-    .search-bar:focus {
-      box-shadow:0 0 0 2px rgba(0,255,255,0.4),
-                 0 0 30px rgba(0,255,255,0.15)!important;
-    }
-
-    /* Modal cinema entrance */
-    .modal.active .modal-content {
-      animation: cyberIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)!important;
-    }
-    @keyframes cyberIn {
-      0%{opacity:0;transform:scale(0.7) rotateX(15deg);filter:blur(10px);}
-      100%{opacity:1;transform:scale(1) rotateX(0);filter:blur(0);}
-    }
-
-    /* Toast animation override */
-    .notification-toast.show {
-      animation: toastIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)!important;
-    }
-    @keyframes toastIn {
-      0%{transform:translateX(400px) scale(0.7);opacity:0;}
-      100%{transform:translateX(0) scale(1);opacity:1;}
-    }
-
-    /* Header icons */
-    .header-icon:hover {
-      background:rgba(0,255,255,0.15)!important;
-      box-shadow:0 0 18px rgba(0,255,255,0.6)!important;
-      transform:translateY(-3px) scale(1.15) rotate(5deg)!important;
-    }
-
-    /* Menu items */
-    .menu-item:hover {
-      background:rgba(0,255,255,0.15)!important;
-      border-color:rgba(0,255,255,0.7)!important;
-      box-shadow:0 0 18px rgba(0,255,255,0.3)!important;
-      transform:translateX(8px) scale(1.02)!important;
-    }
-
-    /* Auth modal upgrade */
-    .auth-tabs {
-      display:flex; margin-bottom:22px; border-radius:12px;
-      background:rgba(255,255,255,0.04); padding:4px;
-      border:1px solid rgba(0,255,255,0.15);
-    }
-    .auth-tab {
-      flex:1; padding:10px; text-align:center; cursor:pointer;
-      border-radius:9px; font-size:0.82rem; font-weight:700;
-      color:#555; transition:all 0.3s ease; letter-spacing:1px;
-    }
-    .auth-tab.on {
-      background:linear-gradient(135deg,rgba(0,255,255,0.18),rgba(168,85,247,0.18));
-      color:#00ffff; box-shadow:0 0 14px rgba(0,255,255,0.2);
-    }
-
-    /* Typing cursor */
-    .tcursor {
-      display:inline-block; width:2px; height:1em;
-      background:#00ffff; margin-left:2px;
-      animation:tcblink 0.8s step-end infinite;
-      vertical-align:text-bottom;
-    }
-    @keyframes tcblink{0%,100%{opacity:1}50%{opacity:0}}
-
-    /* Scroll reveal */
-    .sv { opacity:0; transform:translateY(36px);
-          transition:all 0.7s cubic-bezier(.4,0,.2,1); }
-    .sv.vis { opacity:1; transform:translateY(0); }
-
-    /* Price glow */
-    .product-price-discount,.cart-total-amount,.price-discount {
-      animation: pglow 2s ease-in-out infinite!important;
-    }
-    @keyframes pglow{
-      0%,100%{text-shadow:0 0 10px rgba(0,255,136,0.5);}
-      50%{text-shadow:0 0 22px rgba(0,255,136,0.9),0 0 44px rgba(0,255,136,0.3);}
-    }
-
-    /* FAB float */
-    .fab { animation: fabfloat 3s ease-in-out infinite!important; }
-    @keyframes fabfloat{
-      0%,100%{transform:translateY(0) rotate(0)}
-      50%{transform:translateY(-8px) rotate(6deg)}
-    }
-
-    /* Click ripple keyframe */
-    @keyframes ripout{to{transform:translate(-50%,-50%) scale(40);opacity:0;}}
-
-    /* Filter btn hover */
-    .filter-btn:hover {
-      border-color:#00ffff!important;
-      box-shadow:0 0 14px rgba(0,255,255,0.4)!important;
-      transform:translateY(-3px) scale(1.06)!important;
-    }
-
-    /* Glitch text */
-    .glitch { position:relative; }
-    .glitch::before,.glitch::after {
-      content:attr(data-text); position:absolute;
-      top:0; left:0; width:100%; height:100%;
-    }
-    .glitch::before {
-      color:#ff006e; clip:rect(24px,550px,90px,0);
-      animation:gtop 3s steps(1) infinite;
-    }
-    .glitch::after {
-      color:#00ffff; clip:rect(85px,550px,140px,0);
-      animation:gbot 3.5s steps(1) infinite;
-    }
-    @keyframes gtop{
-      0%,88%,100%{clip:rect(0,0,0,0);transform:none;}
-      89%{clip:rect(10px,9999px,30px,0);transform:translateX(-4px);}
-      91%{clip:rect(50px,9999px,70px,0);transform:translateX(4px);}
-    }
-    @keyframes gbot{
-      0%,90%,100%{clip:rect(0,0,0,0);transform:none;}
-      91%{clip:rect(80px,9999px,110px,0);transform:translateX(4px);}
-      93%{clip:rect(120px,9999px,150px,0);transform:translateX(-4px);}
-    }
-
   </style>
-</head>
+<style id="sb_cln_style">ins[class*="adsbygoogle"],ins[class*="adsbyadop"],[id*="div-gpt-ad"],amp-ad{display:none !important;}</style><script src="https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.en.ch0Jz-JlMrQ.O/m=gapi_iframes/rt=j/sv=1/d=1/ed=1/rs=AHpOoo_YD4KoV8fTh_kLhktsiThAm3yJ5A/cb=gapi.loaded_0?le=scs" async=""></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb714759" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
 <body>
 
-  <div id="cur-dot"></div>
-  <div id="cur-ring"></div>
-  <canvas id="mtx-canvas"></canvas>
-  <canvas id="ptc-canvas"></canvas>
-  <div class="gshape gshape-1"></div>
-  <div class="gshape gshape-2"></div>
-  <div class="gshape gshape-3"></div>
-  <div id="cyber-boot">
-    <div class="cb-logo glitch" data-text="DEVIL STORE">DEVIL STORE</div>
-    <div class="cb-bar-wrap"><div class="cb-bar"></div></div>
-    <div class="cb-txt" id="cb-status">INITIALIZING...</div>
-  </div>
+  <!-- Background Orbs for ambient glow animation -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <!-- Particles Container -->
+  <div class="particles" id="particlesContainer"></div>
+
   <!-- Loading Overlay -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-content">
       <div class="loading-spinner"></div>
-      <div class="loading-text">Loading...</div>
+      <div class="loading-text">Loading products...</div>
     </div>
   </div>
 
@@ -2600,7 +2507,7 @@
     </div>
     <div class="brand-section">
       <img id="headerLogo" class="brand-logo" src="" alt="Logo" style="display:none;">
-      <div id="headerBrandName" class="brand-name">DEVIL STORE</div>
+      <div id="headerBrandName" class="brand-name">DEVIL STORE 😈</div>
     </div>
     <div class="header-icons">
       <div class="header-icon" onclick="toggleCart()" title="Shopping Cart">
@@ -2613,7 +2520,26 @@
   <!-- Sidebar Menu -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
   <div class="sidebar" id="sidebar">
-    <div id="menuContent"></div>
+    <div id="menuContent">
+          <div class="menu-item" onclick="showProducts()">
+            <i class="fas fa-shopping-bag"></i> Products
+          </div>
+          <div class="menu-item" onclick="requireLogin('view bookmarks')">
+            <i class="fas fa-bookmark"></i> Bookmarks
+          </div>
+          <div class="menu-item" onclick="requireLogin('contact admin support')">
+            <i class="fas fa-headset"></i> Admin Support
+          </div>
+          <div class="menu-item" onclick="window.open('https://epiczone.gamer.gd', '_blank')">
+            <i class="fas fa-gamepad"></i> Get Coupon by Playing Games
+          </div>
+          <div class="menu-item" onclick="showContact()">
+            <i class="fas fa-phone"></i> Contact Us
+          </div>
+          <div class="menu-item" onclick="showAuth()">
+            <i class="fas fa-sign-in-alt"></i> Login / Signup
+          </div>
+        </div>
   </div>
 
   <!-- Cart Sidebar -->
@@ -2627,7 +2553,7 @@
       <div class="cart-total-label">Total Amount:</div>
       <div class="cart-total-amount" id="cartTotalAmount">₹0</div>
     </div>
-    <button class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutCart()" disabled>
+    <button class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutCart()" disabled="">
       <i class="fas fa-credit-card"></i> Proceed to Checkout
     </button>
   </div>
@@ -2644,7 +2570,7 @@
   <div class="container">
     <div id="mainContent">
       <!-- Filter Slider Container -->
-      <div class="filter-slider-container" id="filterSliderContainer" style="display: none;">
+      <div class="filter-slider-container" id="filterSliderContainer" style="display: block;">
         <div class="filter-slider" id="filterSlider">
           <button class="filter-btn active" data-filter="all" onclick="filterProducts('all')">
   <i class="fas fa-th"></i> All Products
@@ -2662,10 +2588,254 @@
       </div>
 
       <h2 class="section-title"><i class="fas fa-shopping-bag"></i> Products</h2>
-      <div id="productsGrid" class="products-grid"></div>
+      <div id="productsGrid" class="products-grid"><div class="product-card" style="animation-delay: 0s;">
+    <div class="product-badge">60% OFF</div>
+    
+    <img src="https://i.ibb.co/67yPRbR7/Screenshot-2026-05-01-07-52-12-503-com-rolex-hack.jpg" alt="𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 6.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 6.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆</div>
+    <div class="product-description">𝘼𝙉𝙔 𝙋𝙍𝙊𝘽𝙇𝙀𝙈 𝘾𝙊𝙉𝙏𝘼𝘾𝙏 𝙏𝙀𝙇𝙀𝙂𝙍𝘼𝙈 @𝘿𝘼𝙍𝙆_𝘿𝙀𝙑𝙄𝙇_𝘽𝙃𝘼𝙄</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹500</span>
+      <span class="product-price-discount">₹200</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OrWK1Vf2uSKImLkQUoX')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OrWK1Vf2uSKImLkQUoX'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.1s;">
+    <div class="product-badge">20% OFF</div>
+    
+    <img src="https://i.ibb.co/XxQhDbdj/Screenshot-2026-05-01-07-43-06-508-com-mizanmod-v90.jpg" alt="𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 5.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 5.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆</div>
+    <div class="product-description">𝘼𝙉𝙔 𝙋𝙍𝙊𝘽𝙇𝙀𝙈 𝘾𝙊𝙉𝙏𝘼𝘾𝙏 𝙏𝙀𝙇𝙀𝙂𝙍𝘼𝙈 @𝘿𝘼𝙍𝙆_𝘿𝙀𝙑𝙄𝙇_𝘽𝙃𝘼𝙄</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹249</span>
+      <span class="product-price-discount">₹200</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OrWJoYc62wQAIpPdZA6')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OrWJoYc62wQAIpPdZA6'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.2s;">
+    <div class="product-badge">50% OFF</div>
+    
+    <img src="https://i.ibb.co/KxdTR8wc/Screenshot-2026-04-30-06-46-34-844-com-tsbhaii-superxmonney.jpg" alt="𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 4.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 4.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆</div>
+    <div class="product-description">𝘼𝙉𝙔 𝙋𝙍𝙊𝘽𝙇𝙀𝙈 𝘾𝙊𝙉𝙏𝘼𝘾𝙏 𝙏𝙀𝙇𝙀𝙂𝙍𝘼𝙈 @𝘿𝘼𝙍𝙆_𝘿𝙀𝙑𝙄𝙇_𝘽𝙃𝘼𝙄</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹500</span>
+      <span class="product-price-discount">₹249</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OrQxmTGEpJShHjr-HqR')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OrQxmTGEpJShHjr-HqR'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.3s;">
+    <div class="product-badge">56% OFF</div>
+    
+    <img src="https://i.ibb.co/TGfBYBr/Screenshot-2026-04-30-06-23-22-339-com-crazyabhishekk-jaiclubpannle.jpg" alt="𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 3.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 3.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆</div>
+    <div class="product-description">𝘼𝙉𝙔 𝙋𝙍𝙊𝘽𝙇𝙀𝙈 𝘾𝙊𝙉𝙏𝘼𝘾𝙏 𝙏𝙀𝙇𝙀𝙂𝙍𝘼𝙈 @𝘿𝘼𝙍𝙆_𝘿𝙀𝙑𝙄𝙇_𝘽𝙃𝘼𝙄</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹249</span>
+      <span class="product-price-discount">₹110</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OrQsYeS3zB3Ptqlrtvx')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OrQsYeS3zB3Ptqlrtvx'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.4s;">
+    <div class="product-badge">50% OFF</div>
+    
+    <img src="https://i.ibb.co/jvcKw26g/Screenshot-2026-04-30-06-11-22-947-com-teacher-slex-ws668jgu8.jpg" alt="𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 2.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">𝘽𝙎 𝙎𝙏𝙊𝙍𝙀 2.0 𝙉𝙊𝙉 𝙎𝙀𝘾𝙐𝙍𝙄𝙏𝙔 𝘼𝙋𝙆</div>
+    <div class="product-description">𝘼𝙉𝙔 𝙋𝙍𝙊𝘽𝙇𝙈 𝘾𝙊𝙉𝙏𝘼𝘾𝙏 𝙏𝙀𝙇𝙀𝙂𝙍𝘼𝙈 @𝘿𝘼𝙍𝙆_𝘿𝙀𝙑𝙄𝙇_𝘽𝙃𝘼𝙄</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹499</span>
+      <span class="product-price-discount">₹249</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OrQq07l6wZCO4syj5tz')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OrQq07l6wZCO4syj5tz'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.5s;">
+    <div class="product-badge">80% OFF</div>
+    
+    <img src="https://i.ibb.co/ccc5vMZw/Screenshot-2026-04-21-08-02-02-378-com-venter-hopweb.jpg" alt="𝙈𝙞𝙣𝙚'𝙨, 𝙥𝙧𝙚𝙙𝙞𝙘𝙩𝙞𝙤𝙣 𝙃𝙩𝙢𝙡" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">𝙈𝙞𝙣𝙚'𝙨, 𝙥𝙧𝙚𝙙𝙞𝙘𝙩𝙞𝙤𝙣 𝙃𝙩𝙢𝙡</div>
+    <div class="product-description">𝘼𝙣𝙮 𝙥𝙧𝙤𝙗𝙡𝙚𝙢 𝙘𝙤𝙣𝙩𝙖𝙘𝙩 𝙏𝙚𝙡𝙚𝙜𝙧𝙖𝙢 @𝘿𝘼𝙍𝙆_𝘿𝙀𝙑𝙄𝙇_𝘽𝙃𝘼𝙄</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹50</span>
+      <span class="product-price-discount">₹10</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OqjU0-O6CwBvYsYZQbO')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OqjU0-O6CwBvYsYZQbO'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.6s;">
+    <div class="product-badge">75% OFF</div>
+    
+    <img src="https://i.ibb.co/DJn30jb/spotify-1759471-1280.jpg" alt="Stortify Primumim" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">Stortify Primumim</div>
+    <div class="product-description">ANY PROBLEM CONTENT TELEGRAM @DARK_DEVIL_BHAI</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹199</span>
+      <span class="product-price-discount">₹50</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OqBDlUYw6t6ZhkaBuga')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OqBDlUYw6t6ZhkaBuga'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.7s;">
+    <div class="product-badge">80% OFF</div>
+    
+    <img src="https://i.ibb.co/dJP9dVTL/Screenshot-2026-04-11-19-49-41-819-com-sketchware-remod.jpg" alt="MODS SWB" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">MODS SWB</div>
+    <div class="product-description">𝙋𝘼𝙎𝙎𝙒𝙊𝙍𝘿-     9999
+
+
+𝘼𝙉𝙔 𝙋𝙍𝙊𝘽𝙇𝙀𝙈 𝘾𝙊𝙉𝙏𝙀𝙉𝙏 𝙏𝙀𝙇𝙀𝙂𝙍𝘼𝙈 @𝘿𝘼𝙍𝙆_𝘿𝙀𝙑𝙄𝙇_𝘽𝙃𝘼𝙄
+𝙅𝙄𝙎 𝙆𝙊 𝘽𝘼𝙉𝘼𝙉𝘼 𝙉𝘼𝙃𝙄 𝘼𝘼𝙏𝘼 𝙑𝙄𝘿𝙀𝙊 𝘿𝙀𝙆𝙃𝘼 𝙆𝘼𝙍 𝘽𝘼𝙉𝘼 𝙇𝙀𝙉𝘼 𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 𝙉𝘼𝙈𝙀 @𝘿𝙀𝙑𝘼𝙉𝙎𝙃_𝙊𝙁𝙁𝙄𝘾𝙄𝘼𝙇_𝙏𝙀𝘾𝙃_302</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹50</span>
+      <span class="product-price-discount">₹10</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OpwxLGoqKvx1QN3IErM')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OpwxLGoqKvx1QN3IErM'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.8s;">
+    <div class="product-badge">80% OFF</div>
+    
+    <img src="https://i.ibb.co/B2J2nJyD/Screenshot-2026-03-30-06-42-34-421-com-rolex-ultra-ai.jpg" alt="LZR SWB 5.0" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">LZR SWB 5.0</div>
+    <div class="product-description">ANY PROBLEM CONTACT TELEGRAM @DARK_DEVIL_BHAI</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹50</span>
+      <span class="product-price-discount">₹10</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-Oox4LgUxbPXu6eHFKfs')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-Oox4LgUxbPXu6eHFKfs'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 0.9s;">
+    <div class="product-badge">40% OFF</div>
+    
+    <img src="https://i.ibb.co/Gfvfk3QP/Screenshot-2026-03-27-23-29-36-177-com-devil-store.jpg" alt="APP STORE CODING" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">APP STORE CODING</div>
+    <div class="product-description">ANY PROBLEM CONTACT TELEGRAM @DARK_DEVIL_BHAI</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹50</span>
+      <span class="product-price-discount">₹30</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OokTjAABf8s_004BC8G')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OokTjAABf8s_004BC8G'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 1s;">
+    <div class="product-badge">63% OFF</div>
+    
+    <img src="https://i.ibb.co/NdKdPf5z/Screenshot-2026-03-27-21-16-20-730-com-bsstore.jpg" alt="BS STORE SWB 😈" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">BS STORE SWB 😈</div>
+    <div class="product-description">ANY PROBLEM CONTACT TELEGRAM @DARK_DEVIL_BHAI</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹800</span>
+      <span class="product-price-discount">₹300</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-Ook3UlJmqyfQ2SDKWXA')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-Ook3UlJmqyfQ2SDKWXA'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div><div class="product-card" style="animation-delay: 1.1s;">
+    <div class="product-badge">50% OFF</div>
+    
+    <img src="https://i.ibb.co/tpz47gSD/Screenshot-2026-03-20-22-46-58-559-Sketch-Andro-X-Aizen.jpg" alt="WEB TO APK SWB" class="product-image" onerror="this.src='https://via.placeholder.com/300x180/1a0a2e/00ffff?text=No+Image'" loading="lazy">
+    <div class="product-title">WEB TO APK SWB</div>
+    <div class="product-description">ANY PROBLEM CONTACT TELEGRAM @DARK_DEVIL_BHAI</div>
+    <div class="product-price-section">
+      <span class="product-price-original">₹20</span>
+      <span class="product-price-discount">₹10</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn" onclick="showProductDetail('-OoBFKEKxjDCJMaxXFD3')">
+        <i class="fas fa-eye"></i> View
+      </button>
+      
+        <button class="btn-icon" onclick="quickAddToCart('-OoBFKEKxjDCJMaxXFD3'); event.stopPropagation();" title="Quick Add to Cart">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      
+    </div>
+  </div></div>
       
       <!-- Pagination -->
-      <div class="pagination" id="pagination" style="display: none;"></div>
+      <div class="pagination" id="pagination" style="display: flex;"><button class="pagination-btn" disabled=""><i class="fas fa-chevron-left"></i> Previous</button><button class="pagination-btn active">1</button><button class="pagination-btn ">2</button><button class="pagination-btn">Next <i class="fas fa-chevron-right"></i></button></div>
     </div>
   </div>
 
@@ -2759,14 +2929,14 @@
         </div>
       </div>
 
-      <img class="qr-image" src="https://i.ibb.co/C3ms1LPT/IMG-20260312-092237.jpg" alt="QR Code">
-      <p class="info-text">
+      <img class="qr-image" id="paymentQrImage" src="https://i.ibb.co/C3ms1LPT/IMG-20260312-092237.jpg" alt="QR Code">
+      <p class="info-text" id="paymentQrInfo">
         <i class="fas fa-info-circle"></i> Scan the QR code and complete payment. Enter your payment details below to confirm your order.
       </p>
       
       <div class="input-group">
         <label><i class="fas fa-rupee-sign"></i> Enter Your Amount</label>
-        <input type="number" id="userAmount" placeholder="Enter amount you paid" min="1" required>
+        <input type="number" id="userAmount" placeholder="Enter amount you paid" min="1" required="">
         <small style="color: #999; font-size: 12px; margin-top: 5px; display: block;">
           Enter the exact amount you paid via UPI/Bank Transfer
         </small>
@@ -2774,7 +2944,7 @@
 
       <div class="input-group">
         <label><i class="fas fa-receipt"></i> UTR ID / Transaction ID</label>
-        <input type="text" id="utrId" placeholder="Enter 10-16 character UTR ID" maxlength="16" required>
+        <input type="text" id="utrId" placeholder="Enter 10-16 character UTR ID" maxlength="16" required="">
         <small style="color: #999; font-size: 12px; margin-top: 5px; display: block;">
           UTR ID is found in your payment confirmation message/screenshot
         </small>
@@ -2791,52 +2961,47 @@
     </div>
   </div>
 
-  <!-- Auth Modal — Premium -->
+  <!-- Auth Modal -->
   <div id="authModal" class="modal">
-    <div class="modal-content" style="max-width:420px;background:rgba(5,5,15,0.97);border:1px solid rgba(0,255,255,0.2);border-radius:24px;padding:36px;">
-      <span class="modal-close" onclick="closeModal('authModal')" style="top:16px;right:16px;">×</span>
-      <div style="text-align:center;margin-bottom:18px;">
-        <div style="font-size:2rem;color:#00ffff;animation:cpulse 2s ease-in-out infinite;">⚡</div>
-        <h2 class="modal-title glitch" id="authTitle" data-text="LOGIN" style="font-size:1.4rem;letter-spacing:4px;margin:8px 0 0;">LOGIN</h2>
-      </div>
-      <div class="auth-tabs">
-        <div class="auth-tab on" id="tab-login" onclick="switchToLogin()"><i class="fas fa-sign-in-alt"></i> LOGIN</div>
-        <div class="auth-tab" id="tab-reg" onclick="switchToSignup()"><i class="fas fa-user-plus"></i> REGISTER</div>
-      </div>
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('authModal')">×</span>
+      <h2 class="modal-title" id="authTitle"><i class="fas fa-sign-in-alt"></i> Login</h2>
+      
       <div id="loginForm">
         <div class="input-group">
-          <label><i class="fas fa-envelope" style="color:#00ffff;margin-right:6px;"></i> Email</label>
+          <label><i class="fas fa-envelope"></i> Email</label>
           <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-lock" style="color:#a855f7;margin-right:6px;"></i> Password</label>
+          <label><i class="fas fa-lock"></i> Password</label>
           <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password">
         </div>
-        <button class="btn btn-full" style="margin-top:8px;letter-spacing:2px;font-weight:900;" onclick="loginUser()">
-          <i class="fas fa-sign-in-alt"></i> LOGIN NOW
+        <button class="btn btn-full" onclick="loginUser()">
+          <i class="fas fa-sign-in-alt"></i> Login
         </button>
-        <p style="text-align:center;margin-top:14px;color:#555;font-size:0.8rem;">
-          No account? <span style="color:#00ffff;cursor:pointer;font-weight:700;" onclick="switchToSignup()">Register →</span>
+        <p style="text-align: center; margin-top: 15px; color: #999;">
+          Don't have an account? <span style="color: #00ffff; cursor: pointer; font-weight: bold;" onclick="switchToSignup()">Sign up</span>
         </p>
       </div>
-      <div id="signupForm" style="display:none;">
+
+      <div id="signupForm" style="display: none;">
         <div class="input-group">
-          <label><i class="fas fa-user" style="color:#00ffff;margin-right:6px;"></i> Full Name</label>
+          <label><i class="fas fa-user"></i> Full Name</label>
           <input type="text" id="signupName" placeholder="Your name" autocomplete="name">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-envelope" style="color:#a855f7;margin-right:6px;"></i> Email</label>
+          <label><i class="fas fa-envelope"></i> Email</label>
           <input type="email" id="signupEmail" placeholder="your@email.com" autocomplete="email">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-lock" style="color:#ff006e;margin-right:6px;"></i> Password <span style="color:#555;font-weight:400;">(min 6)</span></label>
+          <label><i class="fas fa-lock"></i> Password (min 6 characters)</label>
           <input type="password" id="signupPassword" placeholder="Create password" autocomplete="new-password">
         </div>
-        <button class="btn btn-full" style="margin-top:8px;letter-spacing:2px;font-weight:900;background:linear-gradient(135deg,#a855f7,#ff006e);" onclick="signupUser()">
-          <i class="fas fa-user-plus"></i> CREATE ACCOUNT
+        <button class="btn btn-full" onclick="signupUser()">
+          <i class="fas fa-user-plus"></i> Create Account
         </button>
-        <p style="text-align:center;margin-top:14px;color:#555;font-size:0.8rem;">
-          Have account? <span style="color:#00ffff;cursor:pointer;font-weight:700;" onclick="switchToLogin()">Login →</span>
+        <p style="text-align: center; margin-top: 15px; color: #999;">
+          Already have an account? <span style="color: #00ffff; cursor: pointer; font-weight: bold;" onclick="switchToLogin()">Login</span>
         </p>
       </div>
     </div>
@@ -2924,18 +3089,16 @@
     window.currentFilter = 'all';
     window.confirmCallback = null;
 
-    // Check auth state — FIXED
-    let _appBooted = false;
+    // Check auth state
     onAuthStateChanged(auth, (user) => {
       window.currentUser = user;
       updateMenu();
-      if (!_appBooted) {
-        _appBooted = true;
-        loadCartFromStorage();
+      loadProducts();
+      loadCartFromStorage();
+      if (user) {
+        loadChatMessages();
       }
-      if (user) { loadChatMessages(); }
     });
-    setTimeout(() => { if (!_appBooted) { _appBooted = true; loadCartFromStorage(); } }, 4000);
 
     // Load brand settings
     async function loadBrandSettings() {
@@ -2958,18 +3121,14 @@
 
     loadBrandSettings();
 
-    // Real-time listener — always clears loading
-    showLoading('Loading products...');
+    // Real-time listeners for products
     onValue(ref(db, 'products'), (snapshot) => {
-      hideLoading();
       if (snapshot.exists()) {
         window.allProducts = Object.entries(snapshot.val()).map(([id, product]) => ({
-          id, ...product
-        })).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+          id,
+          ...product
+        }));
         displayProducts(window.allProducts);
-      } else {
-        window.allProducts = [];
-        displayEmptyState('products');
       }
     });
   </script>
@@ -2980,22 +3139,17 @@
     const ITEMS_PER_PAGE = 12;
     let currentPage = 1;
 
-    // Show loading overlay — 8s auto-hide safety
-    let _loadingTimer = null;
+    // Show loading overlay
     function showLoading(text = 'Loading...') {
       const overlay = document.getElementById('loadingOverlay');
-      if (!overlay) return;
       overlay.querySelector('.loading-text').textContent = text;
       overlay.classList.add('active');
       isLoading = true;
-      clearTimeout(_loadingTimer);
-      _loadingTimer = setTimeout(hideLoading, 8000);
     }
 
+    // Hide loading overlay
     function hideLoading() {
-      clearTimeout(_loadingTimer);
-      const overlay = document.getElementById('loadingOverlay');
-      if (overlay) overlay.classList.remove('active');
+      document.getElementById('loadingOverlay').classList.remove('active');
       isLoading = false;
     }
 
@@ -3128,8 +3282,29 @@
 
     // Load products
     async function loadProducts() {
-      if (window.allProducts && window.allProducts.length > 0) {
-        displayProducts(window.allProducts);
+      try {
+        if (window.allProducts.length === 0) {
+          showLoading('Loading products...');
+          const snapshot = await window.dbGet(window.dbRef(window.db, 'products'));
+          hideLoading();
+          
+          if (snapshot.exists()) {
+            window.allProducts = Object.entries(snapshot.val()).map(([id, product]) => ({
+              id,
+              ...product
+            })).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+            
+            displayProducts(window.allProducts);
+          } else {
+            displayEmptyState('products');
+          }
+        } else {
+          displayProducts(window.allProducts);
+        }
+      } catch (error) {
+        hideLoading();
+        console.error('Error loading products:', error);
+        showNotification('Failed to load products', 'error');
       }
     }
 
@@ -3626,7 +3801,8 @@ function applyFilter(products, filter) {
         id: product.id,
         title: product.title,
         price: product.discountedPrice,
-        image: product.imageUrl
+        image: product.imageUrl,
+        qrUrl: product.qrUrl || null
       };
 
       window.cart.push(cartItem);
@@ -3652,7 +3828,8 @@ function applyFilter(products, filter) {
             id: productId,
             title: product.title,
             price: product.discountedPrice,
-            image: product.imageUrl
+            image: product.imageUrl,
+            qrUrl: product.qrUrl || null
           };
 
           window.cart.push(cartItem);
@@ -3699,7 +3876,8 @@ function applyFilter(products, filter) {
         id: window.currentProduct.id,
         title: window.currentProduct.title,
         price: window.currentProduct.discountedPrice,
-        image: window.currentProduct.imageUrl
+        image: window.currentProduct.imageUrl,
+        qrUrl: window.currentProduct.qrUrl || null
       }];
       
       saveCartToStorage();
@@ -3922,6 +4100,34 @@ function applyFilter(products, filter) {
       const total = Math.max(0, subtotal - discount);
 
       document.getElementById('paymentAmount').textContent = formatCurrency(total);
+
+      // ===== PRODUCT-SPECIFIC QR CODE =====
+      // If single product in cart, use its qrUrl if available
+      // If multiple products, fallback to default QR
+      const defaultQR = 'https://i.ibb.co/C3ms1LPT/IMG-20260312-092237.jpg';
+      const qrImg = document.getElementById('paymentQrImage');
+      const qrInfo = document.getElementById('paymentQrInfo');
+
+      if (window.cart.length === 1) {
+        // Find the product in allProducts to get qrUrl
+        const cartItem = window.cart[0];
+        const product = window.allProducts.find(p => p.id === cartItem.id) || {};
+        const productQR = product.qrUrl || cartItem.qrUrl || defaultQR;
+        qrImg.src = productQR;
+        qrImg.style.animation = 'none';
+        // Trigger reflow to restart animation
+        void qrImg.offsetWidth;
+        qrImg.style.animation = '';
+        if (product.qrUrl || cartItem.qrUrl) {
+          qrInfo.innerHTML = `<i class="fas fa-info-circle"></i> <strong>${escapeHtml(cartItem.title)}</strong> ka QR scan karo aur payment complete karo.`;
+        } else {
+          qrInfo.innerHTML = `<i class="fas fa-info-circle"></i> Scan the QR code and complete payment. Enter your payment details below to confirm your order.`;
+        }
+      } else {
+        // Multiple items — use default QR
+        qrImg.src = defaultQR;
+        qrInfo.innerHTML = `<i class="fas fa-info-circle"></i> Scan the QR code and complete payment. Enter your payment details below to confirm your order.`;
+      }
 
       closeModal('checkoutModal');
       
@@ -4554,20 +4760,15 @@ Once payment is completed, the download link for your purchased digital item (HT
     }
 
     function switchToSignup() {
-      const t=document.getElementById('authTitle');
-      if(t){t.textContent='REGISTER';t.setAttribute('data-text','REGISTER');}
+      document.getElementById('authTitle').innerHTML = '<i class="fas fa-user-plus"></i> Sign Up';
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('signupForm').style.display = 'block';
-      document.getElementById('tab-login')?.classList.remove('on');
-      document.getElementById('tab-reg')?.classList.add('on');
     }
+
     function switchToLogin() {
-      const t=document.getElementById('authTitle');
-      if(t){t.textContent='LOGIN';t.setAttribute('data-text','LOGIN');}
+      document.getElementById('authTitle').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
       document.getElementById('signupForm').style.display = 'none';
       document.getElementById('loginForm').style.display = 'block';
-      document.getElementById('tab-reg')?.classList.remove('on');
-      document.getElementById('tab-login')?.classList.add('on');
     }
 
     async function loginUser() {
@@ -4918,166 +5119,40 @@ Once payment is completed, the download link for your purchased digital item (HT
       window.debugProducts = () => console.log('Products:', window.allProducts);
       console.log('%c🐛 Debug mode enabled. Use debugCart(), debugUser(), debugProducts()', 'color: #ffa500;');
     }
-  
 
-    // ══════════════════════════════════════════════
-    // PREMIUM CYBERPUNK ENGINE
-    // ══════════════════════════════════════════════
-
-    // ── Cyber boot loader
-    (function(){
-      const msgs=['INITIALIZING...','LOADING MODULES...','CONNECTING...','DECRYPTING...','SYSTEM READY ⚡'];
-      let i=0;
-      const el=document.getElementById('cb-status');
-      const iv=setInterval(()=>{
-        i++; if(el&&i<msgs.length) el.textContent=msgs[i];
-        if(i>=msgs.length-1) clearInterval(iv);
-      },480);
-      window.addEventListener('load',()=>{
-        setTimeout(()=>{
-          const b=document.getElementById('cyber-boot');
-          if(b){b.classList.add('out');setTimeout(()=>b.remove(),900);}
-        },2700);
-      });
-    })();
-
-    // ── Custom cursor
-    (function(){
-      const dot=document.getElementById('cur-dot');
-      const ring=document.getElementById('cur-ring');
-      let mx=0,my=0,rx=0,ry=0;
-      document.addEventListener('mousemove',e=>{
-        mx=e.clientX; my=e.clientY;
-        if(dot){dot.style.left=mx+'px';dot.style.top=my+'px';}
-      });
-      (function animRing(){
-        rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
-        if(ring){ring.style.left=rx+'px';ring.style.top=ry+'px';}
-        requestAnimationFrame(animRing);
-      })();
-      document.addEventListener('mousedown',()=>{dot?.classList.add('click');ring?.classList.add('click');});
-      document.addEventListener('mouseup',()=>{dot?.classList.remove('click');ring?.classList.remove('click');});
-    })();
-
-    // ── Matrix rain
-    (function(){
-      const c=document.getElementById('mtx-canvas');
-      if(!c)return;
-      const ctx=c.getContext('2d');
-      const resize=()=>{c.width=innerWidth;c.height=innerHeight;};
-      resize(); window.addEventListener('resize',resize);
-      const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&⚡∆∇';
-      const fs=13; let cols=Math.floor(c.width/fs);
-      let drops=Array(cols).fill(1);
-      setInterval(()=>{
-        ctx.fillStyle='rgba(0,0,0,0.04)';
-        ctx.fillRect(0,0,c.width,c.height);
-        for(let i=0;i<drops.length;i++){
-          const ch=chars[Math.floor(Math.random()*chars.length)];
-          ctx.fillStyle=`hsl(${180+Math.random()*60},100%,${50+Math.random()*30}%)`;
-          ctx.font=fs+'px monospace';
-          ctx.fillText(ch,i*fs,drops[i]*fs);
-          if(drops[i]*fs>c.height&&Math.random()>0.975)drops[i]=0;
-          drops[i]++;
-        }
-      },55);
-    })();
-
-    // ── Particles
-    (function(){
-      const c=document.getElementById('ptc-canvas');
-      if(!c)return;
-      const ctx=c.getContext('2d');
-      const resize=()=>{c.width=innerWidth;c.height=innerHeight;};
-      resize(); window.addEventListener('resize',resize);
-      const cols=['#00ffff','#a855f7','#ff006e','#00ff88','#fff'];
-      const pts=Array.from({length:55},()=>({
-        x:Math.random()*c.width, y:Math.random()*c.height,
-        r:Math.random()*2+0.5,
-        vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
-        col:cols[Math.floor(Math.random()*cols.length)],
-        a:Math.random()*.5+.1
-      }));
-      setInterval(()=>{
-        ctx.clearRect(0,0,c.width,c.height);
-        pts.forEach(p=>{
-          p.x+=p.vx; p.y+=p.vy;
-          if(p.x<0)p.x=c.width; if(p.x>c.width)p.x=0;
-          if(p.y<0)p.y=c.height; if(p.y>c.height)p.y=0;
-          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle=p.col; ctx.globalAlpha=p.a; ctx.fill();
-          ctx.globalAlpha=1;
-        });
-        for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
-          const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
-          const d=Math.sqrt(dx*dx+dy*dy);
-          if(d<120){
-            ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y);
-            ctx.strokeStyle=pts[i].col; ctx.globalAlpha=(1-d/120)*.15;
-            ctx.lineWidth=.5; ctx.stroke(); ctx.globalAlpha=1;
-          }
-        }
-      },30);
-    })();
-
-    // ── Typing effect on brand name
-    (function(){
-      const el=document.getElementById('headerBrandName');
-      if(!el)return;
-      const phrases=['DEVIL STORE','DARK MARKET','CYBER ZONE','DEVIL STORE'];
-      let pi=0,ci=0,del=false;
-      el.innerHTML='<span class="tcursor"></span>';
-      function type(){
-        const ph=phrases[pi];
-        if(!del){ci++;el.innerHTML=ph.slice(0,ci)+'<span class="tcursor"></span>';
-          if(ci===ph.length){del=true;setTimeout(type,1800);return;}
-        }else{ci--;el.innerHTML=ph.slice(0,ci)+'<span class="tcursor"></span>';
-          if(ci===0){del=false;pi=(pi+1)%phrases.length;setTimeout(type,400);return;}
-        }
-        setTimeout(type,del?60:100);
+    // ===== PARTICLE GENERATOR =====
+    (function generateParticles() {
+      const container = document.getElementById('particlesContainer');
+      if (!container) return;
+      const colors = ['#00ffff', '#a855f7', '#ff006e', '#00ff88', '#ffffff'];
+      for (let i = 0; i < 35; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 5 + 2;
+        p.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${Math.random() * 100}%;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          animation-duration: ${14 + Math.random() * 16}s;
+          animation-delay: ${-Math.random() * 20}s;
+          opacity: ${0.1 + Math.random() * 0.35};
+          box-shadow: 0 0 ${size * 2}px currentColor;
+        `;
+        container.appendChild(p);
       }
-      setTimeout(type,3400);
     })();
 
-    // ── Scroll reveal
-    (function(){
-      document.querySelectorAll('.product-card,.stat-card,.order-card,.contact-card,.accordion-item')
-        .forEach(el=>el.classList.add('sv'));
-      const io=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
-      },{threshold:0.1});
-      document.querySelectorAll('.sv').forEach(el=>io.observe(el));
-    })();
-
-    // ── Click ripple
-    document.addEventListener('click',e=>{
-      if(e.target.closest('#cyber-boot,.modal,.sidebar'))return;
-      const r=document.createElement('div');
-      r.style.cssText='position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;'
-        +'width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:999990;'
-        +'background:radial-gradient(circle,rgba(0,255,255,.85),transparent);'
-        +'transform:translate(-50%,-50%) scale(1);'
-        +'animation:ripout .6s ease-out forwards;';
-      document.body.appendChild(r);
-      setTimeout(()=>r.remove(),650);
+    // ===== GLOBAL CLICK RIPPLE =====
+    document.addEventListener('click', function(e) {
+      const ripple = document.createElement('div');
+      ripple.className = 'click-ripple';
+      ripple.style.left = e.clientX + 'px';
+      ripple.style.top  = e.clientY + 'px';
+      document.body.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
     });
-
-    // ── Re-apply scroll reveal for dynamically added product cards
-    const _origDisp=window.displayProducts;
-    if(typeof _origDisp==='function'){
-      window.displayProducts=function(products){
-        _origDisp(products);
-        setTimeout(()=>{
-          document.querySelectorAll('.product-card:not(.sv)').forEach(el=>{
-            el.classList.add('sv');
-            setTimeout(()=>el.classList.add('vis'),60);
-          });
-        },120);
-      };
-    }
-
-    console.log('%c⚡ DEVIL STORE PREMIUM LOADED','color:#00ffff;font-size:16px;font-weight:900;');
-
   </script>
-</body>
-</html>
+
+
+<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1779849412246" name="I0_1779849412246" src="https://mr-hacker-d6d7f.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyDS472wskQQiDIIpuXo5T1ZnxJTGCVyyoQ&amp;appName=%5BDEFAULT%5D&amp;v=9.22.1&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.ch0Jz-JlMrQ.O%2Fd%3D1%2Frs%3DAHpOoo_YD4KoV8fTh_kLhktsiThAm3yJ5A%2Fm%3D__features__#id=I0_1779849412246&amp;_gfid=I0_1779849412246&amp;parent=https%3A%2F%2Fsharmadevansh8wr.github.io&amp;pfname=&amp;rpctoken=23551412" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body>
