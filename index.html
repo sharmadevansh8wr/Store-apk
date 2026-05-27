@@ -2261,9 +2261,315 @@
         opacity: 0;
       }
     }
+
+    /* ══════════════════════════════════════════════
+       PREMIUM CYBERPUNK ENGINE
+    ══════════════════════════════════════════════ */
+
+    /* Custom cursor */
+    * { cursor: none !important; }
+    #cur-dot {
+      width: 8px; height: 8px; background: #00ffff;
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 999999; transform: translate(-50%,-50%);
+      box-shadow: 0 0 12px #00ffff, 0 0 24px rgba(0,255,255,0.5);
+      transition: background 0.2s, transform 0.1s;
+    }
+    #cur-ring {
+      width: 36px; height: 36px;
+      border: 2px solid rgba(0,255,255,0.5);
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 999998; transform: translate(-50%,-50%);
+      transition: all 0.1s ease;
+    }
+    #cur-dot.click { background: #a855f7; transform: translate(-50%,-50%) scale(2.5); }
+    #cur-ring.click { border-color: #a855f7; transform: translate(-50%,-50%) scale(0.5); }
+
+    /* Matrix + particles canvas */
+    #mtx-canvas, #ptc-canvas {
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events: none; z-index: 0;
+    }
+    #mtx-canvas { opacity: 0.04; }
+    #ptc-canvas { opacity: 0.55; z-index: 1; }
+
+    /* Glow shapes */
+    .gshape {
+      position: fixed; border-radius: 50%;
+      pointer-events: none; z-index: 2; opacity: 0.05;
+    }
+    .gshape-1 {
+      width:320px; height:320px; top:-80px; right:-80px;
+      background: radial-gradient(circle,#00ffff,transparent);
+      animation: gfloat 8s ease-in-out infinite;
+    }
+    .gshape-2 {
+      width:220px; height:220px; bottom:80px; left:-60px;
+      background: radial-gradient(circle,#a855f7,transparent);
+      animation: gfloat 10s ease-in-out infinite 3s;
+    }
+    .gshape-3 {
+      width:160px; height:160px; top:45%; right:8%;
+      background: radial-gradient(circle,#ff006e,transparent);
+      animation: gfloat 7s ease-in-out infinite 5s;
+    }
+    @keyframes gfloat {
+      0%,100%{transform:translateY(0) scale(1);}
+      50%{transform:translateY(-28px) scale(1.08);}
+    }
+
+    /* Cyber boot loader */
+    #cyber-boot {
+      position: fixed; inset: 0; background: #000;
+      z-index: 99999; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.8s ease;
+    }
+    #cyber-boot.out { opacity:0; pointer-events:none; }
+    .cb-logo {
+      font-size: 2.8rem; font-weight: 900; letter-spacing: 6px;
+      background: linear-gradient(135deg,#00ffff,#a855f7,#ff006e,#00ffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: rgbg 2s ease infinite, cpulse 1s ease-in-out infinite;
+      margin-bottom: 28px;
+    }
+    @keyframes rgbg {
+      0%,100%{background-position:0% 50%} 50%{background-position:100% 50%}
+    }
+    @keyframes cpulse {
+      0%,100%{filter:drop-shadow(0 0 8px #00ffff)}
+      50%{filter:drop-shadow(0 0 24px #a855f7)}
+    }
+    .cb-bar-wrap {
+      width: 260px; height: 4px; background: rgba(255,255,255,0.07);
+      border-radius: 4px; overflow: hidden; margin-bottom: 14px;
+    }
+    .cb-bar {
+      height: 100%; width: 0; border-radius: 4px;
+      background: linear-gradient(90deg,#00ffff,#a855f7,#ff006e);
+      background-size: 200% 100%;
+      animation: cbfill 2.5s cubic-bezier(.4,0,.2,1) forwards,
+                 cbgrad 1s linear infinite;
+    }
+    @keyframes cbfill { to{width:100%} }
+    @keyframes cbgrad { 0%{background-position:0% 0} 100%{background-position:200% 0} }
+    .cb-txt {
+      color:#00ffff; font-size:0.72rem; letter-spacing:3px;
+      font-family:monospace; animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink{50%{opacity:0}}
+
+    /* Ensure all content above canvases */
+    .header,.sidebar,.cart-sidebar,.search-container,
+    .container,.modal,.fab,.loading-overlay,
+    .notification-toast,.confirm-dialog,
+    #cur-dot,#cur-ring,#cyber-boot {
+      position: relative; z-index: 10;
+    }
+    .header{z-index:1000!important;}
+    .sidebar,.sidebar-overlay{z-index:999!important;}
+    .modal{z-index:2000!important;}
+    .loading-overlay{z-index:10000!important;}
+    #cur-dot{z-index:999999!important;}
+    #cur-ring{z-index:999998!important;}
+    #cyber-boot{z-index:99999!important;}
+
+    /* RGB header border */
+    .header { border-bottom: none !important; }
+    .header::after {
+      content:''; position:absolute; bottom:0; left:0;
+      width:100%; height:2px;
+      background: linear-gradient(90deg,#00ffff,#a855f7,#ff006e,#00ffff);
+      background-size:200% 100%;
+      animation: rgbslide 2.5s linear infinite;
+    }
+    @keyframes rgbslide{0%{background-position:0% 0}100%{background-position:200% 0}}
+
+    /* Brand neon flicker */
+    .brand-name {
+      animation: nflicker 5s ease-in-out infinite !important;
+    }
+    @keyframes nflicker {
+      0%,19%,21%,23%,25%,54%,56%,100%{
+        text-shadow:0 0 5px #00ffff,0 0 15px #00ffff,0 0 30px #00ffff;
+      }
+      20%,24%,55%{text-shadow:none;opacity:0.7;}
+    }
+
+    /* Cards premium hover */
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)!important;
+    }
+    .product-card:hover {
+      transform: translateY(-12px) scale(1.03)!important;
+      box-shadow: 0 24px 60px rgba(0,255,255,0.4),
+                  0 0 0 1px rgba(0,255,255,0.3)!important;
+      border-color: rgba(0,255,255,0.6)!important;
+    }
+
+    /* Button shine sweep */
+    .btn, .btn-free-download, .cart-checkout-btn {
+      position:relative; overflow:hidden;
+      transition: all 0.3s ease!important;
+    }
+    .btn::after,.btn-free-download::after {
+      content:''; position:absolute; top:-50%; left:-60%;
+      width:30%; height:200%;
+      background:rgba(255,255,255,0.22);
+      transform:skewX(-20deg);
+      transition:left 0.5s ease;
+    }
+    .btn:hover::after,.btn-free-download:hover::after{left:130%;}
+    .btn:hover,.btn-free-download:hover {
+      transform:translateY(-3px)!important;
+      box-shadow:0 0 22px rgba(0,255,255,0.6),
+                 0 0 44px rgba(0,255,255,0.3)!important;
+    }
+
+    /* Input focus glow */
+    .input-group input:focus,.input-group textarea:focus {
+      box-shadow:0 0 0 2px rgba(0,255,255,0.4),
+                 0 0 20px rgba(0,255,255,0.2)!important;
+      border-color:#00ffff!important;
+      transform:scale(1.01);
+    }
+    .search-bar:focus {
+      box-shadow:0 0 0 2px rgba(0,255,255,0.4),
+                 0 0 30px rgba(0,255,255,0.15)!important;
+    }
+
+    /* Modal cinema entrance */
+    .modal.active .modal-content {
+      animation: cyberIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)!important;
+    }
+    @keyframes cyberIn {
+      0%{opacity:0;transform:scale(0.7) rotateX(15deg);filter:blur(10px);}
+      100%{opacity:1;transform:scale(1) rotateX(0);filter:blur(0);}
+    }
+
+    /* Toast animation override */
+    .notification-toast.show {
+      animation: toastIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)!important;
+    }
+    @keyframes toastIn {
+      0%{transform:translateX(400px) scale(0.7);opacity:0;}
+      100%{transform:translateX(0) scale(1);opacity:1;}
+    }
+
+    /* Header icons */
+    .header-icon:hover {
+      background:rgba(0,255,255,0.15)!important;
+      box-shadow:0 0 18px rgba(0,255,255,0.6)!important;
+      transform:translateY(-3px) scale(1.15) rotate(5deg)!important;
+    }
+
+    /* Menu items */
+    .menu-item:hover {
+      background:rgba(0,255,255,0.15)!important;
+      border-color:rgba(0,255,255,0.7)!important;
+      box-shadow:0 0 18px rgba(0,255,255,0.3)!important;
+      transform:translateX(8px) scale(1.02)!important;
+    }
+
+    /* Auth modal upgrade */
+    .auth-tabs {
+      display:flex; margin-bottom:22px; border-radius:12px;
+      background:rgba(255,255,255,0.04); padding:4px;
+      border:1px solid rgba(0,255,255,0.15);
+    }
+    .auth-tab {
+      flex:1; padding:10px; text-align:center; cursor:pointer;
+      border-radius:9px; font-size:0.82rem; font-weight:700;
+      color:#555; transition:all 0.3s ease; letter-spacing:1px;
+    }
+    .auth-tab.on {
+      background:linear-gradient(135deg,rgba(0,255,255,0.18),rgba(168,85,247,0.18));
+      color:#00ffff; box-shadow:0 0 14px rgba(0,255,255,0.2);
+    }
+
+    /* Typing cursor */
+    .tcursor {
+      display:inline-block; width:2px; height:1em;
+      background:#00ffff; margin-left:2px;
+      animation:tcblink 0.8s step-end infinite;
+      vertical-align:text-bottom;
+    }
+    @keyframes tcblink{0%,100%{opacity:1}50%{opacity:0}}
+
+    /* Scroll reveal */
+    .sv { opacity:0; transform:translateY(36px);
+          transition:all 0.7s cubic-bezier(.4,0,.2,1); }
+    .sv.vis { opacity:1; transform:translateY(0); }
+
+    /* Price glow */
+    .product-price-discount,.cart-total-amount,.price-discount {
+      animation: pglow 2s ease-in-out infinite!important;
+    }
+    @keyframes pglow{
+      0%,100%{text-shadow:0 0 10px rgba(0,255,136,0.5);}
+      50%{text-shadow:0 0 22px rgba(0,255,136,0.9),0 0 44px rgba(0,255,136,0.3);}
+    }
+
+    /* FAB float */
+    .fab { animation: fabfloat 3s ease-in-out infinite!important; }
+    @keyframes fabfloat{
+      0%,100%{transform:translateY(0) rotate(0)}
+      50%{transform:translateY(-8px) rotate(6deg)}
+    }
+
+    /* Click ripple keyframe */
+    @keyframes ripout{to{transform:translate(-50%,-50%) scale(40);opacity:0;}}
+
+    /* Filter btn hover */
+    .filter-btn:hover {
+      border-color:#00ffff!important;
+      box-shadow:0 0 14px rgba(0,255,255,0.4)!important;
+      transform:translateY(-3px) scale(1.06)!important;
+    }
+
+    /* Glitch text */
+    .glitch { position:relative; }
+    .glitch::before,.glitch::after {
+      content:attr(data-text); position:absolute;
+      top:0; left:0; width:100%; height:100%;
+    }
+    .glitch::before {
+      color:#ff006e; clip:rect(24px,550px,90px,0);
+      animation:gtop 3s steps(1) infinite;
+    }
+    .glitch::after {
+      color:#00ffff; clip:rect(85px,550px,140px,0);
+      animation:gbot 3.5s steps(1) infinite;
+    }
+    @keyframes gtop{
+      0%,88%,100%{clip:rect(0,0,0,0);transform:none;}
+      89%{clip:rect(10px,9999px,30px,0);transform:translateX(-4px);}
+      91%{clip:rect(50px,9999px,70px,0);transform:translateX(4px);}
+    }
+    @keyframes gbot{
+      0%,90%,100%{clip:rect(0,0,0,0);transform:none;}
+      91%{clip:rect(80px,9999px,110px,0);transform:translateX(4px);}
+      93%{clip:rect(120px,9999px,150px,0);transform:translateX(-4px);}
+    }
+
   </style>
 </head>
 <body>
+
+  <div id="cur-dot"></div>
+  <div id="cur-ring"></div>
+  <canvas id="mtx-canvas"></canvas>
+  <canvas id="ptc-canvas"></canvas>
+  <div class="gshape gshape-1"></div>
+  <div class="gshape gshape-2"></div>
+  <div class="gshape gshape-3"></div>
+  <div id="cyber-boot">
+    <div class="cb-logo glitch" data-text="DEVIL STORE">DEVIL STORE</div>
+    <div class="cb-bar-wrap"><div class="cb-bar"></div></div>
+    <div class="cb-txt" id="cb-status">INITIALIZING...</div>
+  </div>
   <!-- Loading Overlay -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-content">
@@ -2485,47 +2791,52 @@
     </div>
   </div>
 
-  <!-- Auth Modal -->
+  <!-- Auth Modal — Premium -->
   <div id="authModal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeModal('authModal')">×</span>
-      <h2 class="modal-title" id="authTitle"><i class="fas fa-sign-in-alt"></i> Login</h2>
-      
+    <div class="modal-content" style="max-width:420px;background:rgba(5,5,15,0.97);border:1px solid rgba(0,255,255,0.2);border-radius:24px;padding:36px;">
+      <span class="modal-close" onclick="closeModal('authModal')" style="top:16px;right:16px;">×</span>
+      <div style="text-align:center;margin-bottom:18px;">
+        <div style="font-size:2rem;color:#00ffff;animation:cpulse 2s ease-in-out infinite;">⚡</div>
+        <h2 class="modal-title glitch" id="authTitle" data-text="LOGIN" style="font-size:1.4rem;letter-spacing:4px;margin:8px 0 0;">LOGIN</h2>
+      </div>
+      <div class="auth-tabs">
+        <div class="auth-tab on" id="tab-login" onclick="switchToLogin()"><i class="fas fa-sign-in-alt"></i> LOGIN</div>
+        <div class="auth-tab" id="tab-reg" onclick="switchToSignup()"><i class="fas fa-user-plus"></i> REGISTER</div>
+      </div>
       <div id="loginForm">
         <div class="input-group">
-          <label><i class="fas fa-envelope"></i> Email</label>
+          <label><i class="fas fa-envelope" style="color:#00ffff;margin-right:6px;"></i> Email</label>
           <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-lock"></i> Password</label>
+          <label><i class="fas fa-lock" style="color:#a855f7;margin-right:6px;"></i> Password</label>
           <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password">
         </div>
-        <button class="btn btn-full" onclick="loginUser()">
-          <i class="fas fa-sign-in-alt"></i> Login
+        <button class="btn btn-full" style="margin-top:8px;letter-spacing:2px;font-weight:900;" onclick="loginUser()">
+          <i class="fas fa-sign-in-alt"></i> LOGIN NOW
         </button>
-        <p style="text-align: center; margin-top: 15px; color: #999;">
-          Don't have an account? <span style="color: #00ffff; cursor: pointer; font-weight: bold;" onclick="switchToSignup()">Sign up</span>
+        <p style="text-align:center;margin-top:14px;color:#555;font-size:0.8rem;">
+          No account? <span style="color:#00ffff;cursor:pointer;font-weight:700;" onclick="switchToSignup()">Register →</span>
         </p>
       </div>
-
-      <div id="signupForm" style="display: none;">
+      <div id="signupForm" style="display:none;">
         <div class="input-group">
-          <label><i class="fas fa-user"></i> Full Name</label>
+          <label><i class="fas fa-user" style="color:#00ffff;margin-right:6px;"></i> Full Name</label>
           <input type="text" id="signupName" placeholder="Your name" autocomplete="name">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-envelope"></i> Email</label>
+          <label><i class="fas fa-envelope" style="color:#a855f7;margin-right:6px;"></i> Email</label>
           <input type="email" id="signupEmail" placeholder="your@email.com" autocomplete="email">
         </div>
         <div class="input-group">
-          <label><i class="fas fa-lock"></i> Password (min 6 characters)</label>
+          <label><i class="fas fa-lock" style="color:#ff006e;margin-right:6px;"></i> Password <span style="color:#555;font-weight:400;">(min 6)</span></label>
           <input type="password" id="signupPassword" placeholder="Create password" autocomplete="new-password">
         </div>
-        <button class="btn btn-full" onclick="signupUser()">
-          <i class="fas fa-user-plus"></i> Create Account
+        <button class="btn btn-full" style="margin-top:8px;letter-spacing:2px;font-weight:900;background:linear-gradient(135deg,#a855f7,#ff006e);" onclick="signupUser()">
+          <i class="fas fa-user-plus"></i> CREATE ACCOUNT
         </button>
-        <p style="text-align: center; margin-top: 15px; color: #999;">
-          Already have an account? <span style="color: #00ffff; cursor: pointer; font-weight: bold;" onclick="switchToLogin()">Login</span>
+        <p style="text-align:center;margin-top:14px;color:#555;font-size:0.8rem;">
+          Have account? <span style="color:#00ffff;cursor:pointer;font-weight:700;" onclick="switchToLogin()">Login →</span>
         </p>
       </div>
     </div>
@@ -2613,7 +2924,7 @@
     window.currentFilter = 'all';
     window.confirmCallback = null;
 
-    // Check auth state — FIXED: one-time init flag
+    // Check auth state — FIXED
     let _appBooted = false;
     onAuthStateChanged(auth, (user) => {
       window.currentUser = user;
@@ -2621,22 +2932,10 @@
       if (!_appBooted) {
         _appBooted = true;
         loadCartFromStorage();
-        // products already loaded by onValue below; just display
-        if (window.allProducts && window.allProducts.length > 0) {
-          displayProducts(window.allProducts);
-        }
       }
-      if (user) {
-        loadChatMessages();
-      }
+      if (user) { loadChatMessages(); }
     });
-    // Safety net: if Firebase Auth hangs > 5s, boot anyway
-    setTimeout(() => {
-      if (!_appBooted) {
-        _appBooted = true;
-        loadCartFromStorage();
-      }
-    }, 5000);
+    setTimeout(() => { if (!_appBooted) { _appBooted = true; loadCartFromStorage(); } }, 4000);
 
     // Load brand settings
     async function loadBrandSettings() {
@@ -2659,21 +2958,18 @@
 
     loadBrandSettings();
 
-    // Real-time listener — SINGLE source of truth for products
-    // Shows loading spinner, always clears it when data arrives (or is empty)
+    // Real-time listener — always clears loading
     showLoading('Loading products...');
     onValue(ref(db, 'products'), (snapshot) => {
-      hideLoading();   // always clear loading regardless of result
+      hideLoading();
       if (snapshot.exists()) {
         window.allProducts = Object.entries(snapshot.val()).map(([id, product]) => ({
-          id,
-          ...product
+          id, ...product
         })).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
         displayProducts(window.allProducts);
       } else {
         window.allProducts = [];
         displayEmptyState('products');
-        document.getElementById('filterSliderContainer').style.display = 'none';
       }
     });
   </script>
@@ -2684,7 +2980,7 @@
     const ITEMS_PER_PAGE = 12;
     let currentPage = 1;
 
-    // Show loading overlay — with 8s auto-hide safety
+    // Show loading overlay — 8s auto-hide safety
     let _loadingTimer = null;
     function showLoading(text = 'Loading...') {
       const overlay = document.getElementById('loadingOverlay');
@@ -2692,12 +2988,10 @@
       overlay.querySelector('.loading-text').textContent = text;
       overlay.classList.add('active');
       isLoading = true;
-      // Auto-hide after 8s to prevent stuck loader
       clearTimeout(_loadingTimer);
-      _loadingTimer = setTimeout(() => { hideLoading(); }, 8000);
+      _loadingTimer = setTimeout(hideLoading, 8000);
     }
 
-    // Hide loading overlay
     function hideLoading() {
       clearTimeout(_loadingTimer);
       const overlay = document.getElementById('loadingOverlay');
@@ -2834,12 +3128,9 @@
 
     // Load products
     async function loadProducts() {
-      // onValue real-time listener handles all loading now
-      // This function just re-displays already loaded products
       if (window.allProducts && window.allProducts.length > 0) {
         displayProducts(window.allProducts);
       }
-      // If allProducts is still empty, onValue will fire and fill it automatically
     }
 
     // Display products
@@ -4263,15 +4554,20 @@ Once payment is completed, the download link for your purchased digital item (HT
     }
 
     function switchToSignup() {
-      document.getElementById('authTitle').innerHTML = '<i class="fas fa-user-plus"></i> Sign Up';
+      const t=document.getElementById('authTitle');
+      if(t){t.textContent='REGISTER';t.setAttribute('data-text','REGISTER');}
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('signupForm').style.display = 'block';
+      document.getElementById('tab-login')?.classList.remove('on');
+      document.getElementById('tab-reg')?.classList.add('on');
     }
-
     function switchToLogin() {
-      document.getElementById('authTitle').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+      const t=document.getElementById('authTitle');
+      if(t){t.textContent='LOGIN';t.setAttribute('data-text','LOGIN');}
       document.getElementById('signupForm').style.display = 'none';
       document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('tab-reg')?.classList.remove('on');
+      document.getElementById('tab-login')?.classList.add('on');
     }
 
     async function loginUser() {
@@ -4622,6 +4918,166 @@ Once payment is completed, the download link for your purchased digital item (HT
       window.debugProducts = () => console.log('Products:', window.allProducts);
       console.log('%c🐛 Debug mode enabled. Use debugCart(), debugUser(), debugProducts()', 'color: #ffa500;');
     }
+  
+
+    // ══════════════════════════════════════════════
+    // PREMIUM CYBERPUNK ENGINE
+    // ══════════════════════════════════════════════
+
+    // ── Cyber boot loader
+    (function(){
+      const msgs=['INITIALIZING...','LOADING MODULES...','CONNECTING...','DECRYPTING...','SYSTEM READY ⚡'];
+      let i=0;
+      const el=document.getElementById('cb-status');
+      const iv=setInterval(()=>{
+        i++; if(el&&i<msgs.length) el.textContent=msgs[i];
+        if(i>=msgs.length-1) clearInterval(iv);
+      },480);
+      window.addEventListener('load',()=>{
+        setTimeout(()=>{
+          const b=document.getElementById('cyber-boot');
+          if(b){b.classList.add('out');setTimeout(()=>b.remove(),900);}
+        },2700);
+      });
+    })();
+
+    // ── Custom cursor
+    (function(){
+      const dot=document.getElementById('cur-dot');
+      const ring=document.getElementById('cur-ring');
+      let mx=0,my=0,rx=0,ry=0;
+      document.addEventListener('mousemove',e=>{
+        mx=e.clientX; my=e.clientY;
+        if(dot){dot.style.left=mx+'px';dot.style.top=my+'px';}
+      });
+      (function animRing(){
+        rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+        if(ring){ring.style.left=rx+'px';ring.style.top=ry+'px';}
+        requestAnimationFrame(animRing);
+      })();
+      document.addEventListener('mousedown',()=>{dot?.classList.add('click');ring?.classList.add('click');});
+      document.addEventListener('mouseup',()=>{dot?.classList.remove('click');ring?.classList.remove('click');});
+    })();
+
+    // ── Matrix rain
+    (function(){
+      const c=document.getElementById('mtx-canvas');
+      if(!c)return;
+      const ctx=c.getContext('2d');
+      const resize=()=>{c.width=innerWidth;c.height=innerHeight;};
+      resize(); window.addEventListener('resize',resize);
+      const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&⚡∆∇';
+      const fs=13; let cols=Math.floor(c.width/fs);
+      let drops=Array(cols).fill(1);
+      setInterval(()=>{
+        ctx.fillStyle='rgba(0,0,0,0.04)';
+        ctx.fillRect(0,0,c.width,c.height);
+        for(let i=0;i<drops.length;i++){
+          const ch=chars[Math.floor(Math.random()*chars.length)];
+          ctx.fillStyle=`hsl(${180+Math.random()*60},100%,${50+Math.random()*30}%)`;
+          ctx.font=fs+'px monospace';
+          ctx.fillText(ch,i*fs,drops[i]*fs);
+          if(drops[i]*fs>c.height&&Math.random()>0.975)drops[i]=0;
+          drops[i]++;
+        }
+      },55);
+    })();
+
+    // ── Particles
+    (function(){
+      const c=document.getElementById('ptc-canvas');
+      if(!c)return;
+      const ctx=c.getContext('2d');
+      const resize=()=>{c.width=innerWidth;c.height=innerHeight;};
+      resize(); window.addEventListener('resize',resize);
+      const cols=['#00ffff','#a855f7','#ff006e','#00ff88','#fff'];
+      const pts=Array.from({length:55},()=>({
+        x:Math.random()*c.width, y:Math.random()*c.height,
+        r:Math.random()*2+0.5,
+        vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+        col:cols[Math.floor(Math.random()*cols.length)],
+        a:Math.random()*.5+.1
+      }));
+      setInterval(()=>{
+        ctx.clearRect(0,0,c.width,c.height);
+        pts.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.x<0)p.x=c.width; if(p.x>c.width)p.x=0;
+          if(p.y<0)p.y=c.height; if(p.y>c.height)p.y=0;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle=p.col; ctx.globalAlpha=p.a; ctx.fill();
+          ctx.globalAlpha=1;
+        });
+        for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+          const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+          const d=Math.sqrt(dx*dx+dy*dy);
+          if(d<120){
+            ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y);
+            ctx.strokeStyle=pts[i].col; ctx.globalAlpha=(1-d/120)*.15;
+            ctx.lineWidth=.5; ctx.stroke(); ctx.globalAlpha=1;
+          }
+        }
+      },30);
+    })();
+
+    // ── Typing effect on brand name
+    (function(){
+      const el=document.getElementById('headerBrandName');
+      if(!el)return;
+      const phrases=['DEVIL STORE','DARK MARKET','CYBER ZONE','DEVIL STORE'];
+      let pi=0,ci=0,del=false;
+      el.innerHTML='<span class="tcursor"></span>';
+      function type(){
+        const ph=phrases[pi];
+        if(!del){ci++;el.innerHTML=ph.slice(0,ci)+'<span class="tcursor"></span>';
+          if(ci===ph.length){del=true;setTimeout(type,1800);return;}
+        }else{ci--;el.innerHTML=ph.slice(0,ci)+'<span class="tcursor"></span>';
+          if(ci===0){del=false;pi=(pi+1)%phrases.length;setTimeout(type,400);return;}
+        }
+        setTimeout(type,del?60:100);
+      }
+      setTimeout(type,3400);
+    })();
+
+    // ── Scroll reveal
+    (function(){
+      document.querySelectorAll('.product-card,.stat-card,.order-card,.contact-card,.accordion-item')
+        .forEach(el=>el.classList.add('sv'));
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+      },{threshold:0.1});
+      document.querySelectorAll('.sv').forEach(el=>io.observe(el));
+    })();
+
+    // ── Click ripple
+    document.addEventListener('click',e=>{
+      if(e.target.closest('#cyber-boot,.modal,.sidebar'))return;
+      const r=document.createElement('div');
+      r.style.cssText='position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;'
+        +'width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:999990;'
+        +'background:radial-gradient(circle,rgba(0,255,255,.85),transparent);'
+        +'transform:translate(-50%,-50%) scale(1);'
+        +'animation:ripout .6s ease-out forwards;';
+      document.body.appendChild(r);
+      setTimeout(()=>r.remove(),650);
+    });
+
+    // ── Re-apply scroll reveal for dynamically added product cards
+    const _origDisp=window.displayProducts;
+    if(typeof _origDisp==='function'){
+      window.displayProducts=function(products){
+        _origDisp(products);
+        setTimeout(()=>{
+          document.querySelectorAll('.product-card:not(.sv)').forEach(el=>{
+            el.classList.add('sv');
+            setTimeout(()=>el.classList.add('vis'),60);
+          });
+        },120);
+      };
+    }
+
+    console.log('%c⚡ DEVIL STORE PREMIUM LOADED','color:#00ffff;font-size:16px;font-weight:900;');
+
   </script>
 </body>
 </html>
